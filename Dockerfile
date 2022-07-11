@@ -9,4 +9,4 @@ RUN npm install
 
 EXPOSE 9999
 
-CMD ["node", "index.js"]
+CMD run node ./index.js
