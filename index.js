@@ -29,6 +29,6 @@ app.get("/", (req, res) => {
     res.end(json)
 })
 
-app.listen(9999, () => {
+app.listen(9999, "0.0.0.0", () => {
     console.log("== railway test app started ==")
 })
