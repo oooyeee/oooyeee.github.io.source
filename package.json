@@ -1,0 +1,28 @@
+{
+  "name": "oooyeee.github.io.source",
+  "version": "1.0.0",
+  "description": "source for my github page",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/example.test.js",
+    "dev": "vite dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oooyeee/oooyeee.github.io.source.git"
+  },
+  "keywords": [
+    "github",
+    "page"
+  ],
+  "author": "Yaroslav Minakov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oooyeee/oooyeee.github.io.source/issues"
+  },
+  "homepage": "https://github.com/oooyeee/oooyeee.github.io.source#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
