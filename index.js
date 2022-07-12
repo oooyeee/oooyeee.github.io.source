@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
 
     res.writeHead(200, [
         "Content-Type", "application/json",
-        "Hello", "World"
+        "Hello", "World :)"
     ])
 
     let json = "{}"
