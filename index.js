@@ -1,6 +1,6 @@
 import express from "express"
 
-const port = process.env.PORT ?? 9999
+const port = process.env["PORT"] ?? process.env["$PORT"] ?? 9999
 
 let app = express()
 
