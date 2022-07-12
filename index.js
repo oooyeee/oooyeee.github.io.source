@@ -10,7 +10,7 @@ const dport = process.env["$PORT"] ?? "no $PORT"
 app.get("/", (req, res) => {
     let { ip, url, body, method, headers } = req
 
-    console.log([ip, url, body, method, headers])
+    // console.log([ip, url, body, method, headers])
 
     res.writeHead(200, [
         "Content-Type", "application/json",
