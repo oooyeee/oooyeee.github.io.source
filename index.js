@@ -5,7 +5,7 @@ const port = process.env["PORT"] ?? process.env["$PORT"] ?? 9999
 let app = express()
 
 const pport = process.env["PORT"] ?? "no PORT"
-const dport = process.env["$PORT"] ?? "no $PORT"
+const dport = process.env["$PORT"] ?? "no $PORT :("
 
 app.get("/", (req, res) => {
     let { ip, url, body, method, headers } = req
