@@ -1,29 +1,48 @@
 {
-  "name": "oooyeee.github.io.source",
-  "version": "1.0.0",
-  "description": "source for my github page",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "start": "node ./index.js",
-    "test": "node ./test/example.test.js",
-    "dev": "vite dev"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/oooyeee/oooyeee.github.io.source.git"
-  },
-  "keywords": [
-    "github",
-    "page"
-  ],
-  "author": "Yaroslav Minakov",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/oooyeee/oooyeee.github.io.source/issues"
-  },
-  "homepage": "https://github.com/oooyeee/oooyeee.github.io.source#readme",
-  "dependencies": {
-    "express": "^4.18.1"
-  }
+    "name": "oooyeee.github.io.source",
+    "version": "1.0.0",
+    "description": "source for my github page",
+    "type": "module",
+    "scripts": {
+        "clean": "rimraf ./dist && rimraf ./wwwroot",
+        "tsc": "rimraf ./dist && tsc -p tsconfig.build.json",
+        "build": "tsc -p tsconfig.build.json && node --experimental-specifier-resolution=node ./scripts/build_ssg.js --build && node --experimental-specifier-resolution=node ./scripts/build_client_app.js --build",
+        "watch": "tsc-watch -p ./tsconfig.build.json --onSuccess \"node --experimental-specifier-resolution=node ./scripts/build_ssg.js\"",
+        "watch2": "node ./scripts/build_client_app.js",
+        "dev": "vite dev"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/oooyeee/oooyeee.github.io.source.git"
+    },
+    "keywords": [
+        "github",
+        "page"
+    ],
+    "author": "Yaroslav Minakov",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/oooyeee/oooyeee.github.io.source/issues"
+    },
+    "homepage": "https://github.com/oooyeee/oooyeee.github.io.source#readme",
+    "devDependencies": {
+        "@types/express": "^4.17.14",
+        "@types/node": "^18.11.11",
+        "@types/react": "^18.0.26",
+        "@types/react-dom": "^18.0.9",
+        "@vitejs/plugin-react": "^2.2.0",
+        "chokidar": "^3.5.3",
+        "express": "^4.18.2",
+        "glob": "^8.0.3",
+        "minimist": "^1.2.7",
+        "rimraf": "^3.0.2",
+        "sass-graph": "^4.0.1",
+        "tsc-watch": "^6.0.0",
+        "vite": "^3.2.5"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "sass": "^1.56.2"
+    }
 }

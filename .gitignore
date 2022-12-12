@@ -1,4 +1,6 @@
 #==================
 .env*
 node_modules/
-oooyeee.github.io
+dist/
+wwwroot/
+package.lock.json
