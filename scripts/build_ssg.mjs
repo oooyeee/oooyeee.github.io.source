@@ -9,14 +9,21 @@ import { argv } from "process"
 import home_page from "../dist/pages/index.js"
 
 
+
+
 //==============================================================================================
+const __defaultImportFix = (mdl) => {
+    return mdl.default ? mdl.default : mdl
+}
+
 let command_args = minimist(argv.slice(2), {
     default: {
         build: false
     }
 })
 
-process.env.IS_BUILD = command_args["build"] ? true : false
+
+process.env.IS_BUILD = command_args["build"] ? "true" : "false"
 
 const __projectDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../")
 
@@ -25,7 +32,7 @@ class Pages {
     #pages = [];
 
     add(rootPath, page) {
-        this.#pages.push({ rootPath: rootPath, page: page });
+        this.#pages.push({ rootPath: rootPath, page: __defaultImportFix(page) });
     }
 
     build(outRootDir) {

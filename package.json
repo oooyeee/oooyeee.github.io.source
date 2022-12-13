@@ -2,14 +2,14 @@
     "name": "oooyeee.github.io.source",
     "version": "1.0.0",
     "description": "source for my github page",
-    "type": "module",
+    "type": "commonjs",
     "scripts": {
         "clean": "rimraf ./dist && rimraf ./wwwroot",
         "tsc": "rimraf ./dist && tsc -p tsconfig.build.json",
-        "build": "node ./scripts/build_sass_vars_gen.js --build && tsc -p tsconfig.build.json && node --experimental-specifier-resolution=node ./scripts/build_ssg.js --build && node --experimental-specifier-resolution=node ./scripts/build_client_app.js --build",
-        "watch1": "node ./scripts/build_sass_vars_gen.js",
-        "watch2": "tsc-watch -p ./tsconfig.build.json --onSuccess \"node --experimental-specifier-resolution=node ./scripts/build_ssg.js\"",
-        "watch3": "node ./scripts/build_client_app.js",
+        "build": "node ./scripts/build_sass_vars_gen.mjs --build && tsc -p tsconfig.build.json && node --experimental-specifier-resolution=node ./scripts/build_ssg.mjs --build && node --experimental-specifier-resolution=node ./scripts/build_client_app.mjs --build",
+        "watch1": "node ./scripts/build_sass_vars_gen.mjs",
+        "watch2": "tsc-watch -p ./tsconfig.build.json --onSuccess \"node --experimental-specifier-resolution=node ./scripts/build_ssg.mjs\"",
+        "watch3": "node ./scripts/build_client_app.mjs",
         "dev": "vite dev"
     },
     "repository": {
