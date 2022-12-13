@@ -6,9 +6,10 @@
     "scripts": {
         "clean": "rimraf ./dist && rimraf ./wwwroot",
         "tsc": "rimraf ./dist && tsc -p tsconfig.build.json",
-        "build": "tsc -p tsconfig.build.json && node --experimental-specifier-resolution=node ./scripts/build_ssg.js --build && node --experimental-specifier-resolution=node ./scripts/build_client_app.js --build",
-        "watch": "tsc-watch -p ./tsconfig.build.json --onSuccess \"node --experimental-specifier-resolution=node ./scripts/build_ssg.js\"",
-        "watch2": "node ./scripts/build_client_app.js",
+        "build": "node ./scripts/build_sass_vars_gen.js --build && tsc -p tsconfig.build.json && node --experimental-specifier-resolution=node ./scripts/build_ssg.js --build && node --experimental-specifier-resolution=node ./scripts/build_client_app.js --build",
+        "watch1": "node ./scripts/build_sass_vars_gen.js",
+        "watch2": "tsc-watch -p ./tsconfig.build.json --onSuccess \"node --experimental-specifier-resolution=node ./scripts/build_ssg.js\"",
+        "watch3": "node ./scripts/build_client_app.js",
         "dev": "vite dev"
     },
     "repository": {

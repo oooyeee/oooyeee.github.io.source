@@ -32,8 +32,12 @@ function WatchStylevarsJsonFiles(options = {}) {
     let json_glob_sv = path.join(__componentsroot, `**/*${sv_src_suffix}.json`).split("\\").join("/")
     let watcher = chokidar.watch(json_glob_sv, { ignoreInitial: false })
 
-    /** @type { string[] } */
-    let sv_json_list = [];
+    if(options.onlyBuild) {
+        watcher.on("ready", async ()=>{
+            await watcher.close();
+            return;
+        })
+    }
 
     /** @type { (str: string, seekStrFromEnd: string)=> string | null } */
     const cutStrFromEnd = (str, seekStrFromEnd) => {
@@ -107,4 +111,4 @@ function WatchStylevarsJsonFiles(options = {}) {
 }
 
 
-WatchStylevarsJsonFiles({ onlyBuild: command_args["build"] ? true : false })
+WatchStylevarsJsonFiles({ onlyBuild: command_args["build"] ? true : false });
