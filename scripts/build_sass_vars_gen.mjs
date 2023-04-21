@@ -14,7 +14,11 @@ import { exec, execSync } from "child_process"
 import minimist from "minimist"
 import { argv } from "process"
 
-const __projdir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../");
+import config from "../config.js"
+
+// const __projdir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../");
+
+const __projdir = config.__projdir
 const __componentsroot = path.join(__projdir, "/src/components");
 
 let command_args = minimist(argv.slice(2), {
@@ -63,12 +67,13 @@ function WatchStylevarsJsonFiles(options = {}) {
                 return;
             }
 
-
             let jsonGenerated = {}
 
             for (let varName of json) {
-                jsonGenerated[varName] = "G" + Buffer.from(randomBytes(3)).toString("hex")
+                jsonGenerated[varName] = "G" + Buffer.from(randomBytes(4)).toString("hex")
             }
+
+            console.log([":: sass stylevars. Generating from:", fPath]);
 
             fs.writeFileSync(sv_generated_json_path, JSON.stringify(jsonGenerated), { flag: "w+" })
 
@@ -89,6 +94,8 @@ function WatchStylevarsJsonFiles(options = {}) {
             let basename = cutStrFromEnd(fPath, sv_src_suffix + ".json")
             let sv_generated_sass_path = basename + sv_generated_suffix + ".sass";
             let sv_generated_json_path = basename + sv_generated_suffix + ".json";
+
+            console.log([":: sass stylevars. Cleaning from:", fPath]);
 
             fs.promises.unlink(sv_generated_json_path);
             fs.promises.unlink(sv_generated_sass_path);

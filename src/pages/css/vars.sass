@@ -1,0 +1,56 @@
+//======== DIMENSIONS ====
+$iphone4: 320px
+
+$smallMin: 280px
+$smallMax: 479px
+
+$mediumMin: 480px
+$mediumMax: 959px
+
+$bigMin: 960px
+$bigMax: 1440px
+
+$headerHeight: 44px
+$headerInnerHeight: 32px
+
+$sideMarginSize: 24px
+
+$mainGap: 32px
+
+//======== LAYERS ====
+@mixin layer1($num: 0)
+    z-index: 0 + $num
+
+@mixin layer2($num: 0)
+    z-index: 100 + $num
+
+@mixin layer3($num: 0)
+    z-index: 200 + $num
+
+@mixin layer4($num: 0)
+    z-index: 300 + $num
+
+@mixin layer5($num: 0)
+    z-index: 400 + $num
+
+//======== FONT ====
+$fontSize: 16px
+
+//======== COLORS ====
+$blue1: #1b2735
+$blue2: #77ccff
+$blue3: #55aaee
+$blue4: #49d
+$blue5: #638ece
+$blue6: #3d526b
+$blue7: #10151d80
+$blue8: #0d1118
+$blue9: #10151d
+
+$yellow1: yellow
+
+$gray1: #ffffff55
+
+//======== BACKGROUNDS ====
+$blueGradient1: radial-gradient(at center bottom, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%)
+

@@ -1,0 +1,18 @@
+// @use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+
+@mixin main
+.#{gen.$footCopyright}
+    display: block
+    width: 100%
+    margin-top: 40px
+    max-width: var(--maxWidth)
+    padding: 0px var(--sideMargins)
+    font-size: 14px
+    color: #aaa
+    font-family: "Cascadia Mono", "Lucida Console", monospace
+    text-align: center
+    & > p:last-of-type
+        font-family: Verdana
+        font-size: 13px
+        margin-bottom: 16px

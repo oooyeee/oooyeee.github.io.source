@@ -1,0 +1,12 @@
+<svg width="180px" height="180px" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <view id="faceMask" viewBox="0 0 180 180" />
+    <view id="bigmask" viewBox="-50 -50 280 280" />
+    <g id="mask">
+        <path style="fill: gray; stroke: none; stroke-width: 0"
+            d="M-50,-50 L230,-50 L230,90 L-50,90 z">
+        </path>
+        <circle style="fill: gray; stroke: none; stroke-width: 0"
+           cx="90" cy="90" r="75">
+        </circle>
+    </g>
+</svg>

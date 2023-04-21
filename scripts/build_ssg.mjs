@@ -5,11 +5,10 @@ import { renderToString } from "react-dom/server"
 import minimist from "minimist"
 import { argv } from "process"
 
+import config from "../config.js"
+
 // IMPORT STATIC PAGES
 import home_page from "../dist/pages/index.js"
-
-
-
 
 //==============================================================================================
 const __defaultImportFix = (mdl) => {
@@ -22,10 +21,12 @@ let command_args = minimist(argv.slice(2), {
     }
 })
 
-
 process.env.IS_BUILD = command_args["build"] ? "true" : "false"
 
-const __projectDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../")
+// const __projectDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../")
+const __projdir = config.__projdir
+
+const ssr = renderToString
 
 class Pages {
     /** @type { {rootPath: string, page: () => JSX.Element}[] } */
@@ -48,9 +49,8 @@ class Pages {
     }
 }
 
-const ssr = renderToString
 // let __viteRootPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../src/ClientApp/root")
-let __viteRootPath = path.join(__projectDir, "wwwroot/")
+let __viteRootPath = path.join(__projdir, "wwwroot/")
 let pages = new Pages();
 // ==============================================================================================
 // =================================================================================SSG BUILD====

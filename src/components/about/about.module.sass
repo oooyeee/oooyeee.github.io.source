@@ -1,0 +1,107 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+@use "../terminalText/terminalText.module.sass" as terminalText
+
+@mixin setwidth
+    width: 100%
+    max-width: 818px
+
+@mixin main
+.#{gen.$about}
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 100%
+    min-height: 480px
+    background-color: vars.$blue1
+    box-shadow: 0px 1px 0px vars.$blue6 inset
+    border-top: 1px solid #112
+    padding: 32px var(--sideMargins)
+    & > *
+        +setwidth
+    & h3
+        display: block
+        height: 48px
+        font-size: 22.5px
+        line-height: 48px
+        font-weight: 700
+        font-family: Orbitron, Verdana
+        text-align: center
+        text-shadow: 2px 2px 1px black
+
+.#{gen.$terminalHeader}
+    width: 100%
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: flex-start
+    position: relative
+    height: 35px
+    background-color: #2C2C2C
+    box-sizing: border-box
+    border-top: 1px solid #181818
+    border-left: 1px solid #181818
+    border-right: 1px solid #181818
+    border-top-left-radius: 10px
+    border-top-right-radius: 10px
+    box-shadow: 1px 1px 1px #2e2e2e inset, -1px -1px 1px #2e2e2e inset
+    padding: 0px 4px
+
+.#{gen.$terminal}
+    display: block
+    font-family: "Cascadia Mono", "Courier New", monospace
+.#{gen.$terminalTitle}
+    position: absolute
+    display: block
+    color: gray
+    padding-left: 8px
+    text-overflow: ellipsis
+    overflow: hidden
+    white-space: nowrap
+    width: clamp(120px, 69%, 220px)
+    @media (max-width: vars.$smallMax - 100px)
+        font-size: 13px
+.#{gen.$terminalButtons}
+    justify-self: flex-end
+    margin-left: auto
+    display: flex
+    gap: 2px
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    padding-right: 4px
+    & > li
+        display: block
+        position: relative
+        user-select: none
+        border-radius: 50%
+        width: 22px
+        height: 22px
+        color: #ccc
+        border: 1px solid #181818
+        text-align: center
+        line-height: 18px
+        background-color: #222
+        // font-family: "Cascadia Mono", "Lucida Console", monospace
+        cursor: pointer
+        &:last-of-type
+            background-color: crimson
+        &:nth-child(2)
+            line-height: 20px
+.#{gen.$terminalConsole}
+    display: block
+    width: 100%
+    box-sizing: border-box
+    position: relative
+    min-height: 300px
+    background-color: #10151d
+    line-height: 25px
+    font-size: 16px
+    @media (max-width: vars.$smallMax)
+        font-size: 14px
+    font-weight: 300
+    padding-left: 4px
+    padding-right: 4px
+    font-weight: 300
+    +terminalText.main
+        

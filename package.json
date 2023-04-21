@@ -10,7 +10,8 @@
         "watch1": "node ./scripts/build_sass_vars_gen.mjs",
         "watch2": "tsc-watch -p ./tsconfig.build.json --onSuccess \"node --experimental-specifier-resolution=node ./scripts/build_ssg.mjs\"",
         "watch3": "node ./scripts/build_client_app.mjs",
-        "dev": "vite dev"
+        "dev": "vite dev",
+        "gen": "node ./scripts/generate_json.mjs"
     },
     "repository": {
         "type": "git",

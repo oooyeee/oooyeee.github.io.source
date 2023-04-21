@@ -1,0 +1,107 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+
+$landscapeHeight: 12rem
+
+$imageContainerSize: $landscapeHeight
+$imageSize: $imageContainerSize * 0.8
+
+@mixin main
+.#{gen.$businessCard}
+    width: 100%
+    height: 100vh
+    display: flex
+    align-items: center
+    justify-content: center
+    @media (max-width: vars.$smallMax + 100px)
+        flex-direction: column
+    @media (min-width: vars.$mediumMin + 100px)
+        flex-direction: row
+
+    &__imageContainer
+        position: relative
+        width: $imageContainerSize
+        height: $imageContainerSize
+        @media (max-width:  vars.$iphone4)
+            width: $imageContainerSize * 0.8
+            height: $imageContainerSize * 0.8
+            
+    &__image
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        width: $imageSize
+        height: $imageSize
+        @media (max-width:  vars.$iphone4)
+            width: $imageSize * 0.8
+            height: $imageSize * 0.8
+        // @media (min-width: vars.$bigMin)
+        //     width: 230px
+        //     height: 230px
+        border: 2px solid white
+        border-radius: 50%
+        background: 45% 50%/110% no-repeat url("/assets/me.jpg")
+        filter: saturate(1.75)
+    &__content
+        height: $landscapeHeight
+        @media (max-width:  vars.$iphone4)
+            height: $landscapeHeight * 0.8
+            margin-top: -1rem
+        display: flex
+        flex-direction: column
+        width: max-content
+        align-items: flex-start
+        justify-content: center
+        font-family: Orbitron, Verdana
+        & > h1
+            display: flex
+            width: 270px
+            @media (max-width:  vars.$iphone4)
+                width: calc(100vw - 2 * vars.$sideMarginSize - 16px)
+            flex-direction: column
+            & > span
+                height: 2.5rem
+                line-height: 2.5rem
+                font-size: 3rem
+                @media (max-width:  vars.$iphone4)
+                    height: 2rem
+                    line-height: 2rem
+                    font-size: 2.5rem
+            & > span:nth-of-type(1) // name
+                color: white
+            & > span:nth-of-type(2) // lastname
+                color: vars.$blue2
+                text-align: end
+        & > h2
+            display: block
+            $minSpanHeight: 1.5rem
+            height: $minSpanHeight
+            & > span // title/description/typed text
+                color: crimson
+                height: $minSpanHeight
+                line-height: 1.5rem
+                font-size: 1.5rem
+            @media (max-width: vars.$smallMax + 100px)
+                align-self: center
+
+    &__image, &__content
+        // @media (min-width: vars.$bigMin)
+        //     transform: scale(220%)
+    &__socialLinks
+        display: flex
+        flex-direction: row
+        align-items: flex-start
+        justify-content: center
+        gap: 20px
+        border-top: 1px solid #ccc
+        padding-top: 4px
+        margin-top: 4px
+        width: 100%
+        & .#{gen.$socialButton}
+            width: 32px
+            height: 32px
+            & > svg
+                fill: white
+                height: inherit
+                width: inherit

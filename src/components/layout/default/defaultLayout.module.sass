@@ -1,0 +1,42 @@
+@use "vars.sass" as vars
+
+@use "../header/header.module.sass" as header
+@use "../footer/footer.module.sass" as footer
+@use "../../goToTopButton/goToTopButton.module.sass" as goToTopButton
+
+@use "../../businessCard/businessCard.module.sass" as businessCard
+@use "../../projectCatalog/projectCatalog.module.sass" as sectionProjects
+@use "../../intersection/intersection.module.sass" as intersection
+@use "../../about/about.module.sass" as about
+@use "../../contacts/contacts.module.sass" as contacts
+@use "../../footCopyright/footCopyright.module.sass" as footCopyright
+
+
+@mixin main
+.wrapper
+    width: 100%
+    min-height: min(100vh, var(--outerHeight))
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-start
+    // padding: 0px var(--sideMargins)
+
+
+main 
+    display: flex
+    flex-direction: column
+    position: relative
+    height: fit-content
+    width: 100%
+    gap: vars.$mainGap
+
++header.main
++businessCard.main
++intersection.main
++sectionProjects.main
++footer.main
++about.main
++contacts.main
++footCopyright.main
++goToTopButton.main

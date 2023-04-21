@@ -13,7 +13,10 @@ import { exec, execSync } from "child_process"
 import minimist from "minimist"
 import { argv } from "process"
 
-const __projdir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../");
+import config from "../config.js"
+
+// const __projdir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../");
+const __projdir = config.__projdir
 const __clientroot = path.join(__projdir, "/src/pages");
 const __pubdir = path.join(__projdir, "/src/public");
 const __wwwroot = path.join(__projdir, "/wwwroot");
@@ -28,7 +31,7 @@ let command_args = minimist(argv.slice(2), {
 // files ending in *.client.ts
 /** @type { (options?: {onlyBuild?: boolean, entrySuffix?: string, minify?: boolean, externals?: import("rollup").ExternalOption, format?: import("rollup").ModuleFormat, globals?: import("rollup").GlobalsOption} = {}) => void } */
 function compile_ts_client_entries(options = {}) {
-    let entries_globs = path.join(__clientroot, `**/*${options.entrySuffix ?? ".client"}.ts`)
+    let entries_globs = path.join(__clientroot, `**/*${options.entrySuffix ?? ".client"}.+(ts|tsx)`)
     let watcher = chokidar.watch(entries_globs, { cwd: __clientroot, ignoreInitial: false })
 
     /** @type { {[uniquePath: string]: import("rollup").RollupWatcher} } */
@@ -130,7 +133,7 @@ function compile_ts_client_entries(options = {}) {
 // in development html entry should put script file that includes sass (conditionally if process.env["IS_BUILD"] is true)
 // ex: if there is src/pages/css/main.bundle.sass
 // should have:    src/pages/css/main.bundle.js
-/** @type { (options?: {shouldWatch?: boolean} = {}) => void } */
+/** @type { (options?: {shouldWatch?: boolean, includePaths?: string[]} = {}) => void } */
 function compile_sass_bundles(options = {}) {
     if (options.shouldWatch) {
         let js_bundles_globs = path.join(__clientroot, "**/*.bundle.js").split("\\").join("/")
@@ -176,6 +179,8 @@ function compile_sass_bundles(options = {}) {
         return;
     }
 
+
+    // Is build with SASS
     let sass_globs = path.join(__clientroot, "**/*.bundle.sass").split("\\").join("/")
     let sass_bundles = glob.sync(sass_globs)
     console.log(["SASS BUNDLES FOUND", sass_bundles]);
@@ -184,7 +189,9 @@ function compile_sass_bundles(options = {}) {
         let relPath = path.relative(__clientroot, fPath)
         let topath = ((tp) => path.join(path.dirname(tp), path.basename(tp, path.extname(tp)) + ".css"))(path.join(__wwwroot, relPath))
         fs.mkdir(path.dirname(topath), { recursive: true }, (err, pth) => {
-            let compiled = sass.compile(fPath)
+            let compiled = sass.compile(fPath, options.includePaths ? {
+                loadPaths: options.includePaths
+            } : undefined);
             fs.writeFileSync(topath, compiled.css, { flag: "w+" })
         })
     }
@@ -272,7 +279,7 @@ function Run() {
 
     copy_public_folder({ onlyBuild: command_args.build });
     // pack_sass_modules();
-    compile_sass_bundles({ shouldWatch: command_args.build === false ? true : false });
+    compile_sass_bundles({ shouldWatch: command_args.build === false ? true : false, includePaths: config.sass.includePaths});
     compile_ts_client_entries({ onlyBuild: command_args.build === false ? false : true });
 }
 

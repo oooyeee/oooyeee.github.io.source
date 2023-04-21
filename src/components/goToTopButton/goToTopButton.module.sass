@@ -1,0 +1,28 @@
+@use "sass:math"
+@use "vars.sass" as vars
+@use "./index.sv.gen.sass" as gen
+    
+$margins: vars.$sideMarginSize
+
+@mixin main
+.#{gen.$goToTopButton}
+    position: fixed
+    display: block
+    width: 32px
+    height: 32px
+    cursor: pointer
+    @media (max-width: vars.$smallMax + 100px)
+        bottom: math.div($margins, 2)
+        right: math.div($margins, 2)
+    @media (min-width: vars.$mediumMin + 100px)
+        bottom: $margins
+        right: $margins
+    transition: 0.3s ease
+    border: 2px solid vars.$blue2
+    border-radius: 5px
+    &:hover
+        border-color: gold
+        & > svg
+            stroke: vars.$blue2
+    & > svg
+        stroke: gold

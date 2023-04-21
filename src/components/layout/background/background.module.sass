@@ -1,0 +1,17 @@
+@use "../../../pages/css/vars.sass" as vars
+@use "./index.sv.gen.sass" as gen
+
+@use "../../fancyCanvas/fancyCanvas.module.sass" as fancyCanvas
+
+
+@mixin main
+.#{gen.$canvasBackground}
+    position: fixed
+    display: block
+    height: 100%
+    width: 100%
+    background: vars.$blueGradient1
+    +vars.layer1(-1)
+
+
++fancyCanvas.main

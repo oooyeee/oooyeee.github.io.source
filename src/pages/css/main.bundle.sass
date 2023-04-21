@@ -1,6 +1,47 @@
-@use "./useit.sass" as useit
-// @import "./useit.sass"
+@use "./cssreset.sass"
+@use "./vars.sass" as vars
+
+@use "../../components/layout/default/defaultLayout.module.sass" as defaultLayout
+@use "../../components/layout/background/background.module.sass" as canvasBackground
+
+@mixin flexCenter
+    align-items: center
+    justify-content: center
+
+
+
+:root
+    //fix with javascrpt when outerHeight is less than 100vh ?
+    --outerHeight: 100vh
+
+    --smallMin: vars.$smallMin
+    --smallMax: vars.$smallMax
+
+    --mediumMin: vars.$mediumMin
+    --mediumMax: vars.$mediumMax
+
+    --bigMin: vars.$bigMin
+    --bigMax: vars.$bigMax
+
+    @media (max-width: vars.$smallMax + 100px)
+        --sideMargins:#{vars.$sideMarginSize}
+    @media (min-width: vars.$mediumMin + 100px)
+        --sideMargins:#{vars.$sideMarginSize * 2}
+
+    --maxWidth: calc(818px + 2*var(--sideMargins))
+
+html
+    letter-spacing: 0.5px
+    scroll-behavior: smooth
 
 body
+    // base 1 rem
+    font-size: vars.$fontSize
     color: white
-    background-color: useit.$somecolor
+    background-color: vars.$blue1
+    font-family: Verdana, sans-serif
+
+    
++canvasBackground.main
+
++defaultLayout.main

@@ -1,0 +1,100 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+
+@use "../catalogItem/catalogItem.module.sass" as catalogItem
+
+$minwidth: vars.$smallMin - vars.$sideMarginSize * 2
+
+$cardMaxWidth: 480px
+
+$breakPoint: $cardMaxWidth + $minwidth + vars.$sideMarginSize * 4
+
+@mixin main
+.#{gen.$projectCatalog}
+    padding: 24px 0px
+    width: 100%
+    max-width: 1200px
+    min-height: 75vh
+    display: grid
+    // background-color: rgba(vars.$blue8, 0.9)
+    // box-shadow: 0px 1px 0px vars.$blue6 inset, 0px -1px 0px vars.$blue6 inset
+    // align-items: center
+    @media (max-width: $breakPoint)
+        grid-template-rows: none
+    @media (min-width: $breakPoint + 1px)
+        grid-template-columns: 1fr 2fr
+
+.#{gen.$itemArea}
+    box-sizing: border-box
+    // border: 1px solid cyan
+    width: 100%
+    & > ul
+        width: 100%
+        display: flex
+        flex-direction: column
+        align-items: center
+        gap: 16px
+
++catalogItem.main
+
+.#{gen.$sidebar}
+    box-sizing: border-box
+    width: 100%
+    padding: 24px var(--sideMargins)
+    // box-shadow: 3px 5px 2px #00000055, -3px 5px 2px #00000055
+    // &:hover
+    //     box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.33), -2px 3px 2px rgba(0, 0, 0, 0.33)
+    &__filter
+        display: block
+        position: relative
+        width: 100%
+        box-sizing: border-box
+        height: 36px
+        line-height: 36px
+        & > span
+            margin-left: 3px
+            display: block
+            position: absolute
+            color: vars.$blue5
+            text-shadow: 2px 2px 2px black
+        &__input
+            box-sizing: border-box
+            color: white
+            width: 100%
+            padding-left: 54px
+            outline: 2px dotted vars.$blue6
+            &::placeholder
+                color: #ffffff55
+            &:focus
+                outline: 3px dotted vars.$blue3
+                box-sizing: border-box
+    &__list
+        width: 100%
+        display: flex
+        flex-direction: column
+        // align-items: center
+        justify-content: center
+        list-style: none
+        // padding: 0px 12px 0px 12px
+        & > li
+            display: block
+            height: 32px
+            line-height: 32px
+            width: 100%
+            box-sizing: border-box
+            cursor: pointer
+            box-shadow: inset 0px -1px 0px vars.$blue4
+            &:hover
+                text-shadow: -2px 2px vars.$blue3, 1px -1px white
+            &:before
+                content: "- "
+    &__button-expand-list
+        display: block
+        width: 100%
+        height: 32px
+        line-height: 32px
+        padding-left: 12px
+        color: rgba(white, 0.8)
+        cursor: pointer
+        &:hover
+            text-shadow: -2px 2px vars.$blue3, 1px -1px white

@@ -1,0 +1,17 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen.sass" as gen
+
+@mixin main
+    & p
+        display: block
+    // & p::before
+    & p.#{gen.$myname}::before
+        color: #4f960c
+        content: "yaroslav:~$ "
+        font-weight: 200
+        white-space: pre
+    & p.#{gen.$aibot}::before
+        color: #96880c
+        content: "chatgpt:~$ "
+        font-weight: 200
+        white-space: pre

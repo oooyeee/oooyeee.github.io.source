@@ -1,0 +1,11 @@
+@use "./index.sv.gen.sass" as gen
+@use "vars" as vars
+
+
+@mixin main
+.#{gen.$footer}
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+    background-color: vars.$blue8

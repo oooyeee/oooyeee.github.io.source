@@ -1,0 +1,104 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+
+// min size
+$minsize: vars.$smallMin
+$minInnerSize: $minsize - vars.$sideMarginSize * 2
+$maxsize: 440px
+
+//areas
+$header: 32px
+$image: 212px
+$title: 32px
+$text: 112px
+$button: 80px
+
+$buttonHeight: 56px
+$iconSize: 32px
+
+@mixin main
+.#{gen.$catalogItem}
+    width: 100%
+    display: grid
+    grid-template-rows: $header $image $title $text $button
+    grid-template-columns: 1fr
+    justify-items: center
+    max-width: $maxsize
+    min-width: $minInnerSize
+    font-family: Orbitron, Verdana
+    box-shadow: 3px 5px 2px #00000055, -3px 5px 2px #00000055
+    background-color: vars.$blue1
+    &:hover
+        box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.33), -2px 3px 2px rgba(0, 0, 0, 0.33)
+    & > *
+        width: min(90%, $maxsize * 0.9)
+    &__header
+        display: block
+        font-size: 22px
+        line-height: 44px
+        border-bottom: 2px solid vars.$blue4
+        text-shadow: 2px 2px 2px black
+        font-weight: 700
+    &__image
+        display: block
+        border: 2px solid vars.$blue6
+        margin-top: 8px
+    &__title
+        color: vars.$blue5
+        font-size: 16px
+        line-height: 32px
+        font-family: "Cascadia Mono", "Lucida Console", monospace
+        text-shadow: 2px 2px 2px black
+        overflow: clip
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 1
+        -webkit-box-orient: vertical
+    &__text
+        height: 100%
+        font-size: 14px
+        line-height: 18.67px
+        text-shadow: 2px 2px 2px black
+        font-family: "Cascadia Mono", "Lucida Console", monospace
+        hyphens: manual
+        overflow: clip
+        text-overflow: ellipsis
+        display: -webkit-box
+        -webkit-line-clamp: 6
+        -webkit-box-orient: vertical
+    &__links
+        font-size: 16px
+        display: flex
+        flex-direction: row
+        margin-top: 4px
+        justify-content: space-between
+        &__live, &__source
+            display: flex
+            height: $buttonHeight
+            width: 45%
+            cursor: pointer
+            flex-direction: row
+            align-items: center
+            justify-content: space-evenly
+            font-family: "Cascadia Mono", "Lucida Console", monospace
+            border: 2px solid vars.$blue6
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.875), -2px 2px 8px rgba(0, 0, 0, 0.875)
+            & > svg
+                display: block
+                width: $iconSize
+                height: $iconSize
+                fill: vars.$blue6
+            &:hover
+                transition: 0.3s
+                border: 2px solid vars.$blue2
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.875), -2px 2px 4px rgba(0, 0, 0, 0.875)
+                & > svg
+                    transition: 0.3s
+                    fill: vars.$blue2
+        &__live
+            & > svg
+                border-radius: 50%
+                border: 2px solid vars.$blue6
+            &:hover
+                & > svg
+                    border: 2px solid vars.$blue2

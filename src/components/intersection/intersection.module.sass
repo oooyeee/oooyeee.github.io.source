@@ -1,0 +1,48 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+
+// $color: #ffffff55
+$color: white
+
+@mixin main
+.#{gen.$intersection}
+    display: flex
+    flex-direction: row
+    gap: 2px
+    align-items: center
+    justify-content: center
+    width: 100%
+    @media (max-height: vars.$mediumMin - 1px)
+        justify-content: flex-start
+        padding-left: calc(var(--sideMargins) - 6px)
+    & > span
+        color: $color
+        font-family: Verdana
+        font-size: 18px
+    &__svg
+        stroke: $color
+        stroke-width: 3px
+        width: 32px
+        height: 32px
+        &__scroller
+            animation: MouseScrollerKeyframes 1.2s linear forwards infinite
+            stroke-width: 3px
+
+@keyframes MouseScrollerKeyframes
+    0%
+        opacity: 0
+        transform: translateY(0px)
+
+    10%
+        opacity: 0.3
+
+    25%
+        opacity: 0.6
+
+    80%
+        opacity: 1
+        transform: translateY(6px)
+
+    100%
+        opacity: 0
+        transform: translateY(6px)

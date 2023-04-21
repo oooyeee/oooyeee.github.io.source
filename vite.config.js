@@ -1,10 +1,15 @@
+// project is "commonjs", but vite docs use "esm" so i decided to use this file as a MODULE
+
 import path from "path"
 import fs from "fs"
 import { fileURLToPath } from "url"
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from "@vitejs/plugin-react"
 
-const __projdir = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
+import config from "./config.js"
+
+// const __projdir = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
+const __projdir = config.__projdir
 // const __rootdir = path.join(__projdir, "/src/ClientApp/root");
 // const __distdir = path.join(__projdir, "/wwwroot")
 // const __publicdir = path.join(__projdir, "/src/ClientApp/public")
@@ -23,6 +28,16 @@ export default defineConfig({
     //         scopeBehaviour: "local"
     //     }
     // },
+    css: {
+        preprocessorOptions: {
+            sass: {
+                includePaths: config.sass.includePaths
+            },
+            scss: {
+                includePaths: config.sass.includePaths
+            }
+        }
+    },
     root: __rootdir,
     // publicDir: __publicdir,
     // REMOVE BUILD
