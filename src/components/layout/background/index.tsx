@@ -3,7 +3,7 @@ import style from "./index.sv.gen.json"
 
 function Background() {
     return (<div id="canvas-background" className={style.canvasBackground}>
-        <FancyCanvas />
+        <FancyCanvas play={true} />
     </div>)
 }
 

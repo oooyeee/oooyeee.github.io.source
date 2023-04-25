@@ -1,38 +1,60 @@
 
 import { createElement } from "react"
+
 import style from "./index.sv.gen.json"
 
-export type CatalogItemProps = {
-    json: {
-        header?: string
-        image?: string
-        title?: string //tech
-        text?: string
-        links?: {
-            live: string
-            source: string
-        }
-    },
-    key?: string,
+import type { MouseEventHandler } from "react"
+import type { ProjectDetails } from "../../constants"
+
+export type CatalogItemProps = ProjectDetails & {
+    keyId?: number,
     elementType?: "div" | "li"
 }
 
 
-function CatalogItem({ json: { header, image, title, text, links }, key, elementType }: CatalogItemProps) {
+
+function CatalogItem({ name, description, tech, urls, elementType, keyId }: CatalogItemProps) {
     let content = (<>
-        <h3 className={style.catalogItem + "__header"}>{header}</h3>
-        <div className={style.catalogItem + "__image"} style={image ? { background: `url(${image})`} : {background: "rgba(0,0,0,0.4)"}}></div>
-        <h4 className={style.catalogItem + "__title"}>{title}</h4>
-        <p className={style.catalogItem + "__text"}><span>{text}</span></p>
+        <h3 className={style.catalogItem + "__header"}>{name}</h3>
+        <div className={style.catalogItem + "__image"} style={urls.image ? { background: `url(${urls.image})` } : { background: "rgba(0,0,0,0.4)" }}></div>
+        <h4 className={style.catalogItem + "__title"}>{tech}</h4>
+        <p className={style.catalogItem + "__text"}><span>{description}</span></p>
         <div className={style.catalogItem + "__links"}>
-            {links.live && <a href={links.live} className={style.catalogItem + "__links__live"}><svg><use xlinkHref="/assets/icons.svg#play"></use></svg><span>Live</span></a>}
-            {links.source && <a href={links.source} className={style.catalogItem + "__links__source"}><svg><use xlinkHref="/assets/icons.svg#github"></use></svg><span>Source</span></a>}
+            {urls.live && <a href={urls.live} className={style.catalogItem + "__links__live"}><svg><use xlinkHref="/assets/icons.svg#play"></use></svg><span>Live</span></a>}
+            {urls.source && <a href={urls.source} className={style.catalogItem + "__links__source"}><svg><use xlinkHref="/assets/icons.svg#github"></use></svg><span>Source</span></a>}
         </div>
     </>)
 
-    let el = createElement(elementType ?? "li", { className: style.catalogItem, key: key }, content)
+    let el = createElement(elementType ?? "li", { className: style.catalogItem, key: keyId, id: `${style.catalogItem}_${keyId}` }, content)
+
+    return el
+}
+
+function EmptyCatalogItem({ elementType, keyId, header = "...more", onClickHandler }: Omit<CatalogItemProps, "tech" | "description" | "urls" | "name"> & { onClickHandler: MouseEventHandler<HTMLLIElement | HTMLDivElement>, header?: string }) {
+    let content = (<>
+        <h3 className={style.catalogItem + "__header"}>{header}</h3>
+        <div className={style.catalogItem + "__image"} style={{ background: "rgba(0,0,0,0.4)" }}></div>
+        <h4 className={style.catalogItem + "__title"}>...</h4>
+        <p className={style.catalogItem + "__text"}><span>...</span></p>
+        <div className={style.catalogItem + "__links"}></div>
+    </>)
+
+    let el = createElement(
+        elementType ?? "li", {
+        className: style.catalogItem,
+        key: keyId,
+        id: `${style.catalogItem}_${keyId}`,
+        style: { opacity: "0.75", cursor: "pointer" },
+        onclick: onClickHandler
+    },
+        content
+    )
 
     return el
 }
 
 export default CatalogItem
+
+export {
+    EmptyCatalogItem
+}

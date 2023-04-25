@@ -3,47 +3,96 @@
 
 @use "../catalogItem/catalogItem.module.sass" as catalogItem
 
-$minwidth: vars.$smallMin - vars.$sideMarginSize * 2
+$minwidth: vars.$cardMinWidth
 
 $cardMaxWidth: 480px
 
-$breakPoint: $cardMaxWidth + $minwidth + vars.$sideMarginSize * 4
+$breakPoint: vars.$cardsBreakPoint
+
+// card sizes
+$minsize: vars.$minsize
+$minInnerSize: vars.$minInnerSize
+$maxsize: vars.$maxsize
 
 @mixin main
 .#{gen.$projectCatalog}
-    padding: 24px 0px
+    padding: 24px var(--sideMargins)
     width: 100%
-    max-width: 1200px
+    max-width: var(--maxWidth)
     min-height: 75vh
     display: grid
+    column-gap: var(--sideMargins)
+    overflow: hidden
     // background-color: rgba(vars.$blue8, 0.9)
     // box-shadow: 0px 1px 0px vars.$blue6 inset, 0px -1px 0px vars.$blue6 inset
     // align-items: center
     @media (max-width: $breakPoint)
         grid-template-rows: none
     @media (min-width: $breakPoint + 1px)
-        grid-template-columns: 1fr 2fr
+        grid-template-columns: 3fr 9fr
 
 .#{gen.$itemArea}
-    box-sizing: border-box
-    // border: 1px solid cyan
+    display: flex
     width: 100%
-    & > ul
-        width: 100%
-        display: flex
-        flex-direction: column
-        align-items: center
-        gap: 16px
+    flex-wrap: wrap
+    justify-content: space-between
+    gap: 19px
+    position: relative
+    cursor: grab
+    // padding: 0px 3px
+    min-height: fit-content
+    // margin-bottom: 10px
+    & > li
+        position: relative
+        flex-basis: calc(50% - 10px)
+        @media (max-width: 600px)
+            flex-basis: 100%
+            max-width: 420px
+            left: 50%
+            transform: translateX(-50%)
+        // min-width: 220px
+        flex-shrink: 0
+        flex-grow: 0
+        height: fit-content
+        // transition: 0.5s
+        user-select: none
+
 
 +catalogItem.main
 
 .#{gen.$sidebar}
     box-sizing: border-box
     width: 100%
-    padding: 24px var(--sideMargins)
+    position: relative
+    // top: vars.$headerHeight
+    height: fit-content
     // box-shadow: 3px 5px 2px #00000055, -3px 5px 2px #00000055
     // &:hover
     //     box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.33), -2px 3px 2px rgba(0, 0, 0, 0.33)
+    &__showFilterSwitch
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: flex-start
+        gap: 8px
+        position: relative
+        user-select: none
+        height: 36px
+        cursor: pointer
+        box-sizing: content-box
+        width: 100%
+        // margin-left: 4px
+        margin-bottom: 4px
+        border-bottom: 2px dotted vars.$blue6
+        & > svg
+            height: inherit
+            width: 30px
+        @media (min-width: $breakPoint + 1px)
+            display: none
+        & > span
+            display: block
+            font-size: 16px
+            line-height: 16px
     &__filter
         display: block
         position: relative
@@ -84,6 +133,7 @@ $breakPoint: $cardMaxWidth + $minwidth + vars.$sideMarginSize * 4
             box-sizing: border-box
             cursor: pointer
             box-shadow: inset 0px -1px 0px vars.$blue4
+            text-overflow: ellipsis
             &:hover
                 text-shadow: -2px 2px vars.$blue3, 1px -1px white
             &:before
@@ -98,3 +148,21 @@ $breakPoint: $cardMaxWidth + $minwidth + vars.$sideMarginSize * 4
         cursor: pointer
         &:hover
             text-shadow: -2px 2px vars.$blue3, 1px -1px white
+        &--clicked
+            transition: 1.5s
+            color: rgba(white, 0.3)
+            // display: none
+
+@media (max-width: $breakPoint)
+    #checkbox--filter:not(:checked) ~ * .#{gen.$sidebar}
+        & > *:not([class*='__showFilterSwitch'])
+            display: none
+        &__showFilterSwitch
+            &__text-hide
+                display: none
+    #checkbox--filter:checked ~ * .#{gen.$sidebar}
+        &__showFilterSwitch
+            margin-bottom: 2px
+            border-bottom: unset
+            &__text-show
+                display: none

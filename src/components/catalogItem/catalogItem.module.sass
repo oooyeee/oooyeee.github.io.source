@@ -2,9 +2,9 @@
 @use "./index.sv.gen" as gen
 
 // min size
-$minsize: vars.$smallMin
-$minInnerSize: $minsize - vars.$sideMarginSize * 2
-$maxsize: 440px
+$minsize: vars.$minsize
+$minInnerSize: vars.$minInnerSize
+$maxsize: vars.$maxsize
 
 //areas
 $header: 32px
@@ -18,20 +18,20 @@ $iconSize: 32px
 
 @mixin main
 .#{gen.$catalogItem}
-    width: 100%
+    // width: 100%
     display: grid
     grid-template-rows: $header $image $title $text $button
     grid-template-columns: 1fr
     justify-items: center
-    max-width: $maxsize
-    min-width: $minInnerSize
+    // max-width: $maxsize
+    // min-width: $minInnerSize
     font-family: Orbitron, Verdana
     box-shadow: 3px 5px 2px #00000055, -3px 5px 2px #00000055
     background-color: vars.$blue1
     &:hover
         box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.33), -2px 3px 2px rgba(0, 0, 0, 0.33)
     & > *
-        width: min(90%, $maxsize * 0.9)
+        width: min(90%, #{$maxsize * 0.9})
     &__header
         display: block
         font-size: 22px
@@ -39,6 +39,12 @@ $iconSize: 32px
         border-bottom: 2px solid vars.$blue4
         text-shadow: 2px 2px 2px black
         font-weight: 700
+        // hyphens: manual
+        // overflow: clip
+        text-overflow: ellipsis
+        // display: -webkit-box
+        // -webkit-line-clamp: 1
+        // -webkit-box-orient: vertical
     &__image
         display: block
         border: 2px solid vars.$blue6

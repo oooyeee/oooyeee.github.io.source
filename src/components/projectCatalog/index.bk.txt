@@ -1,0 +1,173 @@
+import type { Dispatch, MouseEventHandler, SetStateAction } from "react"
+import { Suspense, useState, memo } from "react"
+import { useEffect, useRef } from "react"
+import EE from "../../util/browserEventEmitter"
+import delay from "../../util/delay"
+import genID from "../../util/generateID"
+import { isClient, isServer } from "../../util/isEnvironment"
+import type { CatalogItemProps } from "../catalogItem"
+import CatalogItem from "../catalogItem"
+
+import style from "./index.sv.gen.json"
+
+import styleof_CatalogItem from "../catalogItem/index.sv.gen.json"
+
+type ProjectCatalogProps = {
+    jsonArray?: CatalogItemProps[],
+}
+
+const Sidebar = ({ jsonArray, set_catalogItemInView }: { jsonArray: CatalogItemProps[], set_catalogItemInView: Dispatch<SetStateAction<number>> }) => {
+    const onHover = (ev: React.MouseEvent, index: number) => {
+        console.log(`hovered [${index}] at: `, ev.target["innerHTML"])
+        set_catalogItemInView(index);
+    };
+
+    return (
+        <div className={style.sidebar}>
+            <label className={style.sidebar + "__filter"} id={style.sidebar + "__filter"}>
+                <span>filter:</span>
+                <input type="text" className={style.sidebar + "__filter__input"} placeholder="type" />
+            </label>
+            <ul className={style.sidebar + "__list"}>
+                {jsonArray.map((item, index) => (
+                    <li onMouseEnter={(event) => { onHover(event, index) }} key={index}>
+                        {item.name}
+                    </li>
+                ))}
+            </ul>
+            <div className={style.sidebar + "__button-expand-list"}>more...</div>
+        </div>
+    )
+}
+
+const ObserverRootBox = () => {
+    let boxStyle: React.CSSProperties = {
+        display: "block",
+        position: "absolute",
+        backgroundColor: "cyan",
+        height: "468px",
+        width: "100%",
+        minWidth: "232px",
+        maxWidth: "440px"
+    }
+    return (<div style={boxStyle} id="dragObservingBox">
+        hello
+    </div>)
+}
+
+const CatalogItemArea = ({ jsonArray, itemIndex }: { jsonArray: CatalogItemProps[], itemIndex: number }) => {
+    let previous = jsonArray[itemIndex - 1] !== undefined ? jsonArray[itemIndex - 1] : undefined
+    let currentItem = jsonArray[itemIndex]
+    let next = jsonArray[itemIndex + 1] !== undefined ? jsonArray[itemIndex + 1] : undefined
+
+    useEffect(() => {
+        let beforeUl = document.querySelector(`#dragObservingBox`)
+        let observable = document.querySelector<HTMLElement>(`#${styleof_CatalogItem.catalogItem}_${itemIndex}`)
+        console.log("before UL");
+        console.log(beforeUl)
+        console.log(observable);
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                const idname = entry.target.id; // target = html element
+                const inout = (entry.isIntersecting) ? '' : 'not';
+                const ratio = (entry.intersectionRatio).toFixed(5);
+
+                console.log('Fn called due threshold', ratio, 'with', idname, '( ' + inout + ' intersecting)');
+            })
+        }, {
+            root: beforeUl,
+            threshold: [0, 0.25]
+        })
+
+        observer.observe(observable)
+
+        let interval = null;
+        let timer = setTimeout(() => {
+            let times = 0
+            let maxTimes = 20
+            interval = setInterval(() => {
+                observable.style.transform = `translateX(${times * 20}px)`;
+                times += 1;
+                if (times === maxTimes) {
+                    observable.style.transform = `translateX(0px)`
+                    clearInterval(interval)
+                }
+            }, 250)
+
+            clearTimeout(timer)
+        }, 1000)
+
+    }, [itemIndex]);
+
+    return (
+        <ul className={!previous && "__begin" || !next && "__end" || !!currentItem && "__tri"}>
+            {!!previous && <CatalogItem
+                name={previous.name}
+                description={previous.description}
+                tech={previous.tech} urls={previous.urls}
+                elementType="li" keyId={itemIndex - 1} />}
+            {!!currentItem && <CatalogItem
+                name={currentItem.name}
+                description={currentItem.description}
+                tech={currentItem.tech} urls={currentItem.urls}
+                elementType="li" keyId={itemIndex} />}
+            {!!next && <CatalogItem
+                name={next.name}
+                description={next.description}
+                tech={next.tech} urls={next.urls}
+                elementType="li" keyId={itemIndex + 1} />}
+        </ul>
+    );
+}
+
+function ProjectCatalog({ jsonArray }: ProjectCatalogProps) {
+    const [catalogItemInView, set_catalogItemInView] = useState(0);
+    return (
+        <div className={style.projectCatalog}>
+            <Sidebar jsonArray={jsonArray} set_catalogItemInView={set_catalogItemInView} />
+            <div className={style.itemArea}>
+                <ObserverRootBox />
+                <CatalogItemArea jsonArray={jsonArray} itemIndex={catalogItemInView ?? 0} />
+            </div>
+        </div>
+    );
+}
+
+
+export default ProjectCatalog
+
+// const CatalogItemArea = ({ itemIndex }: { itemIndex: number }) => {
+//     let previous = jsonArray[itemIndex - 1] !== undefined ? jsonArray[itemIndex] : undefined
+//     let currentItem = jsonArray[itemIndex]
+//     let next = jsonArray[itemIndex + 1] !== undefined ? jsonArray[itemIndex] : undefined
+
+//     return (<div className={style.itemArea}>
+//         <div>
+//             {!!previous && <CatalogItem
+//                 name={previous.name}
+//                 description={previous.description}
+//                 tech={previous.tech}
+//                 urls={previous.urls}
+//                 elementType="li"
+//                 key={itemIndex-1}
+//             ></CatalogItem>}
+//             {!!currentItem && <CatalogItem
+//                 name={currentItem.name}
+//                 description={currentItem.description}
+//                 tech={currentItem.tech}
+//                 urls={currentItem.urls}
+//                 elementType="li"
+//                 key={itemIndex}
+//             ></CatalogItem>}
+//             {!!next && <CatalogItem
+//                 name={next.name}
+//                 description={next.description}
+//                 tech={next.tech}
+//                 urls={next.urls}
+//                 elementType="li"
+//                 key={itemIndex+1}
+//             ></CatalogItem>}
+//         </div>
+//     </div>)
+// }

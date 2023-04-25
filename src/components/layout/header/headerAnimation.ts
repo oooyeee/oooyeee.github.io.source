@@ -5,7 +5,11 @@ type DOMStash = {
     [name: string]: HTMLElement & HTMLInputCheckbox
 }
 
-function animateHeaderHiding(headerElement: HTMLElement, translateY_N_pixels: number | string, ignoreAnimationCondition: () => boolean) {
+function animateHeaderHiding(
+    headerElement: HTMLElement,
+    translateY_N_pixels: number | string,
+    shouldDisableHidingConditionCb: () => boolean = () => false) { // true = disable hiding
+    //=============================================================
     let lastScrollPositionY = 0;
     let isHeaderHidden = false;
 
@@ -13,9 +17,10 @@ function animateHeaderHiding(headerElement: HTMLElement, translateY_N_pixels: nu
         if (window.scrollY > lastScrollPositionY) {
             lastScrollPositionY = window.scrollY
             console.log("scrolling down")
-            if (!isHeaderHidden && !ignoreAnimationCondition()) {
-                headerElement.style["transform"] = `translateY(-${translateY_N_pixels})`;
+            if (!isHeaderHidden && !shouldDisableHidingConditionCb()) {
+                headerElement.style["transform"] = `translateY(-${translateY_N_pixels}px)`;
                 isHeaderHidden = true;
+                console.log("header set to hidden")
             }
         } else {
             lastScrollPositionY = window.scrollY
@@ -23,6 +28,7 @@ function animateHeaderHiding(headerElement: HTMLElement, translateY_N_pixels: nu
             if (isHeaderHidden) {
                 headerElement.style["transform"] = "translateY(0px)"
                 isHeaderHidden = false
+                console.log("header set to visible")
             }
         }
     })

@@ -14,21 +14,23 @@
     //fix with javascrpt when outerHeight is less than 100vh ?
     --outerHeight: 100vh
 
-    --smallMin: vars.$smallMin
-    --smallMax: vars.$smallMax
+    --smallMin: #{vars.$smallMin}
+    --smallMax: #{vars.$smallMax}
 
-    --mediumMin: vars.$mediumMin
-    --mediumMax: vars.$mediumMax
+    --mediumMin: #{vars.$mediumMin}
+    --mediumMax: #{vars.$mediumMax}
 
-    --bigMin: vars.$bigMin
-    --bigMax: vars.$bigMax
+    --bigMin: #{vars.$bigMin}
+    --bigMax: #{vars.$bigMax}
+
+    --cardsMediaBreakpoint: #{vars.$cardsBreakPoint}
 
     @media (max-width: vars.$smallMax + 100px)
         --sideMargins:#{vars.$sideMarginSize}
     @media (min-width: vars.$mediumMin + 100px)
         --sideMargins:#{vars.$sideMarginSize * 2}
 
-    --maxWidth: calc(818px + 2*var(--sideMargins))
+    --maxWidth: calc(#{vars.$contentWidth} + 2*var(--sideMargins))
 
 html
     letter-spacing: 0.5px

@@ -103,8 +103,8 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
             }
         }
     }
-    console.log(":: LOGGING ELEMENT ::");
-    console.log(element)
+    // console.log(":: LOGGING ELEMENT ::");
+    // console.log(element)
     let datatext = element.dataset["text"] ?? null;
     let texts = datatext ? datatext.split(";") : null;
     let currentText = element.innerText || null;

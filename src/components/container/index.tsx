@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties } from "react"
+import { ReactNode, CSSProperties, useEffect } from "react"
 import { createElement } from "react"
 
 type InlineStyle = CSSProperties | { [cssproperty: string]: string }
@@ -8,15 +8,21 @@ type ContainerProperties = {
     children?: ReactNode
     style?: InlineStyle
     id?: string,
-    className?: string
+    className?: string,
+    effectAttachedOnce?: React.EffectCallback
 }
 
 type NewContainerProperties = Omit<ContainerProperties, "rootElement">
 
-function Container({ rootElement, children, style, id, className }: ContainerProperties) {
+function Container({ rootElement, children, style, id, className, effectAttachedOnce }: ContainerProperties) {
     // return (<RootEl id={id} className={(className ? className + " " : "") + styles.wrapper} style={{...style}}>
     //     {children}
     // </RootEl>)
+
+
+    !!effectAttachedOnce && useEffect(effectAttachedOnce, [])
+
+
     return createElement(rootElement, { id: id, style: style, className: className }, children)
 }
 

@@ -10,12 +10,24 @@ $mediumMax: 959px
 $bigMin: 960px
 $bigMax: 1440px
 
+$contentWidth: 1200px
+
 $headerHeight: 44px
 $headerInnerHeight: 32px
 
 $sideMarginSize: 24px
 
 $mainGap: 32px
+
+// card sizes
+$minsize: $smallMin
+$minInnerSize: $minsize - $sideMarginSize * 2
+$maxsize: 420px
+
+$cardMaxWidth: 480px
+
+$cardMinWidth: $smallMin - $sideMarginSize * 2
+$cardsBreakPoint: $cardMaxWidth + $cardMinWidth + $sideMarginSize * 4
 
 //======== LAYERS ====
 @mixin layer1($num: 0)

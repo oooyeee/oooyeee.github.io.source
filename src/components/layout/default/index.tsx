@@ -1,6 +1,6 @@
 import Header from "../header"
 import Footer from "../footer"
-import { Fragment, ReactNode } from "react"
+import { Fragment, ReactNode, useEffect } from "react"
 
 import LanguageMenu from "../../languageMenu"
 import ButtonsMenu from "../../buttonsMenu"
