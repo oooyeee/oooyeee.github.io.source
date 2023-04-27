@@ -1,7 +1,6 @@
 import { Dispatch, MouseEventHandler, SetStateAction, useCallback, useMemo } from "react"
 import { Suspense, useState, memo } from "react"
 import { useEffect, useRef } from "react"
-import EE from "../../util/browserEventEmitter"
 import delay from "../../util/delay"
 import Throttler from "../../util/throttler"
 import genID from "../../util/generateID"
@@ -10,28 +9,38 @@ import { CatalogItemProps, EmptyCatalogItem } from "../catalogItem"
 import CatalogItem from "../catalogItem"
 
 import style from "./index.sv.gen.json"
-
 import styleof_CatalogItem from "../catalogItem/index.sv.gen.json"
+
 import Debouncer from "../../util/debouncer"
 import { uiState } from "../../constants"
+import { animateSidebarOnScroll } from "./animateSidebarOnScroll"
+
+import EE from "../../util/browserEventEmitter"
+import { useDebounce } from "../../util/hooks/useDebounce"
+// import { EE } from "../../util/browserEventEmitter"
 
 type ProjectCatalogProps = {
     jsonArray?: CatalogItemProps[],
 }
 
 type SidebarProps = ProjectCatalogProps & {
-    setIndex: Dispatch<SetStateAction<number>>
+    // setIndex: Dispatch<SetStateAction<number>>
     isClickedMore: boolean
+    ee: EE
 }
 
-const SidebarList = memo(({ jsonArray, setIndex, isClickedMore }: SidebarProps) => {
+const SidebarList = memo(({ jsonArray, isClickedMore, ee }: SidebarProps) => {
 
     const onItemClick = (index: number) => {
-        setIndex(index)
+        // setIndex(index)
+        ee.emit("index", index)
     }
 
     const Li = ({ text, index }: { text: string, index: number }) => (
-        <li onClick={() => { onItemClick(index) }}>{text}</li>
+        // <li onClick={() => { onItemClick(index) }}>{text}</li>
+        <li onClick={() => { onItemClick(index) }}>
+            <a href={`#${styleof_CatalogItem.catalogItem}_${index}`}>{text}</a>
+        </li>
     )
 
     return (<>
@@ -53,56 +62,88 @@ const SidebarList = memo(({ jsonArray, setIndex, isClickedMore }: SidebarProps) 
 })
 
 type CatalogItemAreaProps = ProjectCatalogProps & {
-    itemIndex: number,
-    totalItems: number
+    ee: EE
 }
 
-const CatalogItemArea = memo(({ jsonArray, itemIndex, totalItems }: CatalogItemAreaProps) => {
+const CatalogItemArea = memo(({ jsonArray, ee }: CatalogItemAreaProps) => {
+    const mqBreakPoint = useMemo(() => { // compute once, bc i will not change --cardsMediaBreakpoint
+        const documentRootStyle = typeof (document) !== "undefined" && getComputedStyle(document.documentElement)
+        const mqBreakPoint = !!documentRootStyle && documentRootStyle.getPropertyValue('--cardsMediaBreakpoint2')
+        return mqBreakPoint
+    }, [])
 
-    // const mqBreakPoint = useMemo(()=>{ // compute once, bc i will not change --cardsMediaBreakpoint
-    //     const documentRootStyle = !!document && getComputedStyle(document.documentElement)
-    //     const mqBreakPoint = !!documentRootStyle && documentRootStyle.getPropertyValue('--cardsMediaBreakpoint')
+    const matchesBreakPoint = () => { // ??
+        let matchesMQ = window.matchMedia(`(max-width: ${mqBreakPoint})`).matches
+        return matchesMQ
+    }
 
-    //     return mqBreakPoint // returns string, for example: "818px"
-    // }, [])
+    const smallMax = 1
+    const bigMax = 3
+    const giveCardsNumber = () => matchesBreakPoint() ? smallMax : bigMax
 
-    // const matchesBreakPoint = () => { // ??
-    //     let matchesMQ = window.matchMedia(`(max-width: ${mqBreakPoint})`).matches
-    //     return matchesMQ
-    // }
+    // @TODO on resize, check media query, if small width set to 1 if wide width set to 3
+    const [maxPerPage, set_maxPerPage] = useState(bigMax)
 
-    // const smallMax = 1
-    // const bigMax = 3
+    const ccNref = useRef(bigMax) // ccNref.current is tracked in useEffect
+    const [currentCardsNumber /*this variable is only for render*/, set_currentCardsNumberForRender] = useState(ccNref.current)
 
-    // const [matchesMediaBreakPoint, set_matchesMediaBreakPoint] = useState(matchesBreakPoint())
-    // const [maxPerPage, set_maxPerPage] = useState(matchesMediaBreakPoint ? smallMax : bigMax)
+    const set_currentCardsNumber = (num: number) => { // updates current number
+        ccNref.current = num // updated here for tracking
+        set_currentCardsNumberForRender(num) // updated here for render
+    }
 
+    useEffect(() => {
+        let ul: HTMLUListElement = document.querySelector(`.${style.itemArea}`)
+        let initCardsNumber = giveCardsNumber()
+        set_maxPerPage(initCardsNumber)
+        set_currentCardsNumber(initCardsNumber)
+        window.addEventListener("resize", (ev) => {
+            initCardsNumber = giveCardsNumber()
+            set_maxPerPage(initCardsNumber)
+        })
 
-    // useEffect(() => {
-    //     let ul: HTMLUListElement = document.querySelector(`.${style.itemArea}`)
+        // ================== ee =================
+        ee.on("index", (inputIndex: string) => {
+            console.log(`>>> sidebar input: ${inputIndex}`)
+            let inputNum = parseInt(inputIndex)
+            if (inputNum >= ccNref.current) {
+                let ncNum = getNextCardsNumber(inputNum)
+                console.log(`>>> current: ${ccNref.current} -- nextCardsNum: ${ncNum}`);
+                set_currentCardsNumber(ncNum)
+            }
+        })
 
-    //     const matchesBreakPoint = () => { // ??
-    //         console.log(`(max-width: ${mqBreakPoint})`);
-            
-    //         let matchesMQ = window.matchMedia(`(max-width: ${mqBreakPoint})`).matches
-    //         return matchesMQ
-    //     }
+    }, []);
 
-    //     window.addEventListener("resize", (ev)=>{
-    //         console.log("window inner Height: ", window.innerHeight)
-    //         console.log("window inner Width: ", window.innerWidth)
-    //         set_matchesMediaBreakPoint(matchesBreakPoint())
-    //         console.log("matches media: ", matchesMediaBreakPoint)
-    //     })
-    // }, []);
+    const getNextCardsNumber = useCallback((currentCardsNumber: number) => {
+        let cardnum = currentCardsNumber + maxPerPage
+        console.log("calculating cardnum: " + cardnum)
+        if (cardnum > jsonArray.length) {
+            cardnum = jsonArray.length
+        }
 
+        return cardnum
+    }, [currentCardsNumber])
+
+    const onClickHandler: MouseEventHandler<HTMLDivElement | HTMLLIElement> = (ev) => {
+        ev.preventDefault()
+        let cardnum = getNextCardsNumber(currentCardsNumber)
+        set_currentCardsNumber(cardnum)
+    }
 
 
     const ShowCards = () => {
-        const maxPerPage = 3
+        let maxCards = bigMax;
+
+        if (typeof maxPerPage !== "undefined" && typeof currentCardsNumber !== "undefined") {
+            maxCards = currentCardsNumber > maxPerPage ? currentCardsNumber : maxPerPage
+        }
+        console.log(">>> max cards on render: " + maxCards)
         let arr = [];
-        for (let i = 0; i < maxPerPage; i++) {
+        let i = 0;
+        for (; i < maxCards; i++) {
             let item = jsonArray[i];
+            if (!item) break;
             let index = i
             arr.push(<CatalogItem
                 name={item.name}
@@ -115,12 +156,12 @@ const CatalogItemArea = memo(({ jsonArray, itemIndex, totalItems }: CatalogItemA
             ></CatalogItem>)
         }
 
-        jsonArray.length > 3 && arr.push(<EmptyCatalogItem
+        jsonArray.length > maxCards && arr.push(<EmptyCatalogItem
             elementType="li"
             header="...more"
-            key={4}
-            keyId={4}
-            onClickHandler={() => { }}
+            key={i}
+            keyId={i}
+            onClickHandler={onClickHandler}
         ></EmptyCatalogItem>)
 
         return arr
@@ -129,9 +170,7 @@ const CatalogItemArea = memo(({ jsonArray, itemIndex, totalItems }: CatalogItemA
     return (
         <ul className={style.itemArea + " itemArea"}
             style={{
-                // transform: "translateX(0px)",
-                // transition: "0.1s"
-                // cursor: "pointer"
+
             }}>
             {ShowCards()}
         </ul>
@@ -166,14 +205,21 @@ type InputLineProps = ProjectCatalogProps & {
 
 const InputLine = ({ setItemsList, jsonArray }: InputLineProps) => {
 
-    const onInputTextChange: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
-        const inputValue = ev.target.value;
+    const getItemsFromInputValue = (inputValue: string) => {
         const filteredItems = jsonArray.filter((item) =>
             item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
             item.tech.toLowerCase().includes(inputValue.toLowerCase()) ||
             item.description.toLowerCase().includes(inputValue.toLowerCase())
         );
+
+        return filteredItems
+    }
+
+    const onInputTextChange: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
+        const inputValue = ev.target.value;
+        const filteredItems = getItemsFromInputValue(inputValue)
         setItemsList(filteredItems);
+
     }
 
     return (<>
@@ -193,7 +239,9 @@ const FilterLabelSVG_for_filter_checkbox = () => {
                 style={{
                     stroke: "white", strokeWidth: "1", strokeLinecap: "round"
                 }}>
-                <path d="M 2,5 L 5,7"></path><path d="M 8,5 L 5,7"></path>
+                {/* <path d="M 2,5 L 5,7"></path><path d="M 8,5 L 5,7"></path> */}
+                <path></path>
+                <path></path>
             </svg>
             <span className={style.sidebar + "__showFilterSwitch__text-show"}>show filter</span>
             <span className={style.sidebar + "__showFilterSwitch__text-hide"}>hide filter</span>
@@ -201,33 +249,52 @@ const FilterLabelSVG_for_filter_checkbox = () => {
     )
 }
 
+
+
+
 function ProjectCatalog({ jsonArray }: ProjectCatalogProps) {
-    const [catalogItemInView, set_catalogItemInView] = useState(0);
     const [isClickedMore, set_isClickedMore] = useState(false)
-    const [itemsList, set_itemsList] = useState(jsonArray)
+    const [debouncedValue, set_itemsList] = useDebounce(jsonArray, 500)
+
+    // event emitter is used to avoid rerenderings
+    const ee = useRef(new EE({
+        enableDebugErrorMessages: true,
+        // maxListeners: 1
+    }))
+
+    useEffect(() => {
+        let sidebarSticky: HTMLElement = document.querySelector(`.${style.sidebar + "__stickytrack"}`)
+        console.log(":: HERE ::");
+
+        console.log(sidebarSticky)
+        animateSidebarOnScroll(sidebarSticky, 48)
+    }, [])
 
     return (
         <div className={style.projectCatalog}>
             <div className={style.sidebar}>
-                <FilterLabelSVG_for_filter_checkbox />
-                <label className={style.sidebar + "__filter"} id={style.sidebar + "__filter"}>
-                    <span>filter:</span>
-                    <InputLine setItemsList={set_itemsList} jsonArray={jsonArray} />
-                </label>
-                <ul className={style.sidebar + "__list"}>
-                    <SidebarList
-                        jsonArray={itemsList}
-                        setIndex={set_catalogItemInView}
-                        isClickedMore={isClickedMore} />
-                </ul>
-                <ButtonClickMore
-                    isClickedMore={isClickedMore}
-                    set_isClickedMore={set_isClickedMore} />
+                <div className={style.sidebar + "__stickytrack"}>
+                    <FilterLabelSVG_for_filter_checkbox />
+                    <label className={style.sidebar + "__filter"} id={style.sidebar + "__filter"}>
+                        <span>filter:</span>
+                        <InputLine setItemsList={set_itemsList} jsonArray={jsonArray} />
+                    </label>
+                    <ul className={style.sidebar + "__list"}>
+                        <SidebarList
+                            jsonArray={debouncedValue}
+                            // setIndex={set_catalogItemInView}
+                            ee={ee.current}
+                            isClickedMore={isClickedMore} />
+                    </ul>
+                    <ButtonClickMore
+                        isClickedMore={isClickedMore}
+                        set_isClickedMore={set_isClickedMore} />
+                </div>
             </div>
             <CatalogItemArea
-                jsonArray={itemsList}
-                itemIndex={catalogItemInView ?? 0}
-                totalItems={jsonArray.length} />
+                jsonArray={debouncedValue}
+                // itemIndex={catalogItemInView ?? 0}
+                ee={ee.current} />
         </div>
     );
 }

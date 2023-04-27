@@ -205,27 +205,27 @@ function canvasAnimation(canvas: HTMLCanvasElement, checkBoxSwitch: HTMLInputChe
             big.push(p(Math.floor(Math.random() * width), Math.floor(Math.random() * height)));
         }
     }
+
     // will work properly only if stars go north-east!!!
     // for velocity vector: (x positive, y negative)!!!
-    function updateRombs() {
-        function moveRombs(points: PointXY[], size) {
-            for (let i = 0; i < points.length; i++) {
-                //draw
-                drawshape(createRhombus(size, points[i]), stars_color)
-                //update coordinates
-                if (points[i].x > width + (size / 2)) {
-                    points[i].x = (-1) * size / 2;
-                    points[i].y = Math.floor(Math.random() * height)
-                } else if (points[i].y < (-1) * size / 2) {
-                    points[i].y = height + size / 2;
-                    points[i].x = Math.floor(Math.random() * width)
-                } else {
-                    points[i].x = points[i].x + velocity.x * frameTime;
-                    points[i].y = points[i].y + velocity.y * frameTime;
-                }
+    function moveRombs(points: PointXY[], size) {
+        for (let i = 0; i < points.length; i++) {
+            //draw
+            drawshape(createRhombus(size, points[i]), stars_color)
+            //update coordinates
+            if (points[i].x > width + (size / 2)) {
+                points[i].x = (-1) * size / 2;
+                points[i].y = Math.floor(Math.random() * height)
+            } else if (points[i].y < (-1) * size / 2) {
+                points[i].y = height + size / 2;
+                points[i].x = Math.floor(Math.random() * width)
+            } else {
+                points[i].x = points[i].x + velocity.x * frameTime;
+                points[i].y = points[i].y + velocity.y * frameTime;
             }
         }
-
+    }
+    function updateRombs() {
         moveRombs(big, dBig)
         moveRombs(medium, dMedium)
         moveRombs(small, dSmall)
@@ -435,7 +435,7 @@ function canvasAnimation(canvas: HTMLCanvasElement, checkBoxSwitch: HTMLInputChe
                 // initPoints();
                 animationFrame = window.requestAnimationFrame(loop);
 
-                if(checkBoxFireworksSwitch !== undefined && !checkBoxFireworksSwitch.checked) {
+                if (checkBoxFireworksSwitch !== undefined && !checkBoxFireworksSwitch.checked) {
                     document.addEventListener('mousemove', hMouseMove);
                     document.addEventListener("touchmove", hTouchMove);
                     document.addEventListener("touchstart", hTouchStart);
@@ -445,14 +445,14 @@ function canvasAnimation(canvas: HTMLCanvasElement, checkBoxSwitch: HTMLInputChe
     }
 
     if (checkBoxFireworksSwitch !== undefined) {
-        checkBoxFireworksSwitch.addEventListener("change", (event)=>{
+        checkBoxFireworksSwitch.addEventListener("change", (event) => {
             if (checkBoxFireworksSwitch.checked) {
                 console.log("fireworks off")
 
                 document.removeEventListener("mousemove", hMouseMove)
                 document.removeEventListener("touchmove", hTouchMove)
                 document.removeEventListener("touchstart", hTouchStart);
-            } else if(!checkBoxFireworksSwitch.checked) {
+            } else if (!checkBoxFireworksSwitch.checked) {
                 console.log("fireworks on")
 
                 document.addEventListener('mousemove', hMouseMove);

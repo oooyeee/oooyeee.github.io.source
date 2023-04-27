@@ -1,3 +1,5 @@
 [
-	"catalogItem"
+	"catalogItem",
+	"catalogItem--empty",
+	"catalogItem--selected"
 ]

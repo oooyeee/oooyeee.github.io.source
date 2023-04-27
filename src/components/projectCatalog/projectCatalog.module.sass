@@ -16,13 +16,14 @@ $maxsize: vars.$maxsize
 
 @mixin main
 .#{gen.$projectCatalog}
+    margin-top: 20px
     padding: 24px var(--sideMargins)
     width: 100%
     max-width: var(--maxWidth)
-    min-height: 75vh
+    min-height: 50vh
     display: grid
     column-gap: var(--sideMargins)
-    overflow: hidden
+    // overflow: hidden
     // background-color: rgba(vars.$blue8, 0.9)
     // box-shadow: 0px 1px 0px vars.$blue6 inset, 0px -1px 0px vars.$blue6 inset
     // align-items: center
@@ -38,14 +39,14 @@ $maxsize: vars.$maxsize
     justify-content: space-between
     gap: 19px
     position: relative
-    cursor: grab
+    cursor: help
     // padding: 0px 3px
     min-height: fit-content
     // margin-bottom: 10px
     & > li
         position: relative
         flex-basis: calc(50% - 10px)
-        @media (max-width: 600px)
+        @media (max-width: vars.$cardsBreakPoint2)
             flex-basis: 100%
             max-width: 420px
             left: 50%
@@ -65,7 +66,7 @@ $maxsize: vars.$maxsize
     width: 100%
     position: relative
     // top: vars.$headerHeight
-    height: fit-content
+    height: 100%
     // box-shadow: 3px 5px 2px #00000055, -3px 5px 2px #00000055
     // &:hover
     //     box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.33), -2px 3px 2px rgba(0, 0, 0, 0.33)
@@ -117,10 +118,18 @@ $maxsize: vars.$maxsize
             &:focus
                 outline: 3px dotted vars.$blue3
                 box-sizing: border-box
+    &__stickytrack
+        box-sizing: border-box
+        width: 100%
+        height: fit-content
+        position: sticky
+        top: 0px
+        //check scroll transition and push this sticky sidebar down. because of header
     &__list
         width: 100%
         display: flex
         flex-direction: column
+        position: relative
         // align-items: center
         justify-content: center
         list-style: none
@@ -147,15 +156,15 @@ $maxsize: vars.$maxsize
         color: rgba(white, 0.8)
         cursor: pointer
         &:hover
-            text-shadow: -2px 2px vars.$blue3, 1px -1px white
+            text-shadow: -1px 1px vars.$blue3, 1px -1px white
         &--clicked
-            transition: 1.5s
-            color: rgba(white, 0.3)
+            // transition: 1.5s
+            // color: rgba(white, 0.3)
             // display: none
 
 @media (max-width: $breakPoint)
     #checkbox--filter:not(:checked) ~ * .#{gen.$sidebar}
-        & > *:not([class*='__showFilterSwitch'])
+        & > .#{gen.$sidebar}__stickytrack > *:not([class*='__showFilterSwitch'])
             display: none
         &__showFilterSwitch
             &__text-hide
@@ -166,3 +175,21 @@ $maxsize: vars.$maxsize
             border-bottom: unset
             &__text-show
                 display: none
+
+// animation for arrow show more / show less
+#checkbox--filter:checked ~ * .#{gen.$sidebar}
+    &__showFilterSwitch
+        & svg > path
+            transition: 0.5s ease
+            &:nth-child(1)
+                d: path("M 2,2 L 8,8")
+            &:nth-child(2)
+                d: path("M 8,2 L 2,8")
+#checkbox--filter:not(:checked) ~ * .#{gen.$sidebar}
+    &__showFilterSwitch
+        & svg > path
+            transition: 0.5s ease
+            &:nth-child(1)
+                d: path("M 2,5 L 5,7")
+            &:nth-child(2)
+                d: path("M 8,5 L 5,7")

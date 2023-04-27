@@ -108,3 +108,16 @@ $iconSize: 32px
             &:hover
                 & > svg
                     border: 2px solid vars.$blue2
+.#{gen.$catalogItem--empty}
+    border-radius: 30px
+    filter: saturate(50%)
+    grid-template-rows: $header $image $title $text
+    & > div:last-child
+        kek: lol
+        display: none!important
+
+.#{gen.$catalogItem--selected}
+    // outline: 2px solid vars.$blue2
+
+.#{gen.$catalogItem}:target
+    outline: 2px solid vars.$blue2

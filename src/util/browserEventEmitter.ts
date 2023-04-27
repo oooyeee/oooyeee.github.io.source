@@ -114,3 +114,7 @@ class EE {
 
 
 export default EE
+
+export type {
+    EE
+}
