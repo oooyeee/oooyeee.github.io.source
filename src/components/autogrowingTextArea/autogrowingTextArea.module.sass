@@ -1,0 +1,29 @@
+@use "vars.sass" as vars
+@use "./index.sv.gen" as gen
+
+@mixin main
+.#{gen.$autogrowingTextAreaParentNode}
+    display: grid
+    width: 100%
+    &:after
+        content: attr(data-replicated-value) " "
+        white-space: pre-wrap
+        visibility: hidden
+        resize: none
+        overflow: hidden
+        font: inherit
+        grid-area: 1/1/2/2
+.#{gen.$autogrowingTextArea}
+    box-sizing: border-box
+    width: 100%
+    height: 100%
+    resize: none
+    overflow: hidden
+    white-space: revert
+    grid-area: 1/1/2/2
+    word-wrap: break-word
+    hyphens: auto
+    &::placeholder
+        color: #aaa
+    &:focus
+        outline: 4px solid vars.$blue3

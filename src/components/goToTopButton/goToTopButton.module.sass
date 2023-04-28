@@ -20,9 +20,15 @@ $margins: vars.$sideMarginSize
     transition: 0.3s ease
     border: 2px solid vars.$blue2
     border-radius: 5px
+    transform: translateX(100px)
+    & > svg
+        stroke: gold
+        stroke-linecap: round
+        stroke-linejoin: round
     &:hover
         border-color: gold
         & > svg
             stroke: vars.$blue2
-    & > svg
-        stroke: gold
+
+.#{gen.$goToTopButton}__hidden
+    transform: translateX(0px)

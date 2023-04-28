@@ -28,7 +28,6 @@
         font-family: Orbitron, Verdana
         text-align: center
         text-shadow: 2px 2px 1px black
-
 .#{gen.$terminalHeader}
     width: 100%
     display: flex
@@ -46,7 +45,6 @@
     border-top-right-radius: 10px
     box-shadow: 1px 1px 1px #2e2e2e inset, -1px -1px 1px #2e2e2e inset
     padding: 0px 4px
-
 .#{gen.$terminal}
     display: block
     font-family: "Cascadia Mono", "Courier New", monospace
@@ -88,20 +86,4 @@
             background-color: crimson
         &:nth-child(2)
             line-height: 20px
-.#{gen.$terminalConsole}
-    display: block
-    width: 100%
-    box-sizing: border-box
-    position: relative
-    min-height: 300px
-    background-color: #10151d
-    line-height: 25px
-    font-size: 16px
-    @media (max-width: vars.$smallMax)
-        font-size: 14px
-    font-weight: 300
-    padding-left: 4px
-    padding-right: 4px
-    font-weight: 300
-    +terminalText.main
-        
++terminalText.main

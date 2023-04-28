@@ -1,4 +1,4 @@
-import React, { createElement, ReactNode, useRef, useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { useEffect } from "react";
 import { renderToString } from "react-dom/server";
 import { AnimateText } from "../../util/animateText";
@@ -9,13 +9,8 @@ import Chainer from "../../util/chainer";
 import { insertBefore, insertAfter } from "../../util/DOMelements";
 
 import style from "./index.sv.gen.json"
-
-
 import { terminalConsoleContainerId } from "./constants"
 import delay from "../../util/delay";
-
-import labelStyle from "../autogrowingTextArea/index.sv.gen.json"
-import AutogrowingTextArea from "../autogrowingTextArea";
 
 const text: string[] = [
     `As a person enthusiastic for coding`,
@@ -49,34 +44,46 @@ const text: string[] = [
 // ];
 
 
-
 function TerminalConsole() {
-    useEffect(() => {
-        let form: HTMLInputElement = document.querySelector(`#${style.terminalConsoleContainerId}`)
-        let input: HTMLInputElement = document.querySelector(`#${style.terminalConsoleContainerId} > label > textarea`)
-        let term: HTMLDivElement = document.querySelector(`.${style.terminalConsole}`)
 
-        const enterAndAppendText = (container: HTMLDivElement, input: HTMLInputElement) => {
-            let p = document.createElement("p")
-            p.innerHTML = input.value
-            input.value = ""
-            container.appendChild(p)
+    useEffect(() => {
+        let parentContainer = document.querySelector("#" + terminalConsoleContainerId)
+
+        let chainer = new Chainer()
+
+        let b = document.createElement("b")
+        b.innerText = " ☻:"
+        b.style.color = "yellow"
+
+
+        for (let i = 0; i < text.length; i++) {
+            chainer.chain(async () => {
+                let pp = document.createElement("p")
+                pp.dataset["text"] = text[i]
+                pp.className = (i > 3) ? style.aibot : style.myname
+                parentContainer.appendChild(pp)
+                await AnimateText(pp, {
+                    times: 1, pauseAfter: 70, addBeam: true, keepBeamAfterAnimation: (i === text.length - 1 ? true : false), beamAsPseudo: true, typeDelay: 70,
+                    onBeforeAnimationEnd: (i === 3) ? (element) => {
+                        element.appendChild(b)
+                    } : undefined
+                })
+            })
         }
 
-        form.addEventListener("submit", (ev) => {
-            ev.preventDefault()
-
-            enterAndAppendText(term, input)
+        delay(100, async () => {
+            await chainer.go()
         })
     }, [])
 
 
-    return (<form action="" id={style.terminalConsoleContainerId} className="WTF">
-        <div className={style.terminalConsole}></div>
-        <label className={labelStyle.autogrowingTextAreaParentNode}>
-            <AutogrowingTextArea />
-        </label>
-    </form>)
+    let keyCounter = 0;
+    return (<div className={style.terminalConsole}>
+        <noscript>
+            {text.map(line => <span key={keyCounter++} dangerouslySetInnerHTML={{ __html: line }}></span>)}
+            {keyCounter = 0}
+        </noscript>
+    </div>)
 }
 
 

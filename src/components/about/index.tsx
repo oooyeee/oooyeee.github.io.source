@@ -3,7 +3,6 @@ import { useEffect } from "react"
 import style from "./index.sv.gen.json"
 
 import TerminalConsole from "../terminalText";
-import { terminalConsoleContainerId } from "../terminalText/constants";
 
 type AboutProperties = {
     id?: string
@@ -22,9 +21,7 @@ function About({ id }: AboutProperties) {
                     <li>x</li>
                 </ul>
             </div>
-            <div className={style.terminalConsole} id={terminalConsoleContainerId}>
-                <TerminalConsole />
-            </div>
+            <TerminalConsole />
         </div>
     </section>)
 }
