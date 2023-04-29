@@ -12,7 +12,7 @@
     position: relative
     min-height: 300px
     background-color: #10151d
-    line-height: 25px
+    line-height: vars.$consoleTextHeight
     font-size: 16px
     @media (max-width: vars.$smallMax)
         font-size: 14px
@@ -20,7 +20,11 @@
     padding-left: 4px
     padding-right: 4px
     font-weight: 300
-
+    cursor: text
+    & > span
+        position: absolute
+        color: #5a960c
+        top: 0px
 .#{gen.$terminalConsole}
     box-sizing: border-box
     width: 100%
@@ -29,10 +33,16 @@
     top: 0px
     & p
         display: block
+        width: 100%
+        word-wrap: break-word
     & p::before
         color: #96880c
         content: "console:~$ "
         font-weight: 200
         white-space: pre
+    > span
+        display: block
+        width: 100%
+        word-wrap: break-word
 
 +autogrowingTextArea.main

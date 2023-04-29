@@ -2,6 +2,7 @@ import delay from "./delay"
 import { getDomPath } from "./DOMelements";
 
 export type AnimateTextOptions = {
+    newText?: string
     times?: number,
     pauseBefore?: number,
     pauseAfter?: number,
@@ -10,6 +11,7 @@ export type AnimateTextOptions = {
     beamAsPseudo?: boolean, // pseudo class spanElement::after that would animate beam (should have content: "|")
     keepBeamAfterAnimation?: boolean,
     decrementally?: boolean,
+    onBeforeAnimationStart?: (element: HTMLElement) => void,
     onBeforeAnimationEnd?: (element: HTMLElement) => void,
     onAnimationEndTransformElement?: (element: HTMLElement) => void,
     callBack?: (element: HTMLElement) => void
@@ -17,6 +19,7 @@ export type AnimateTextOptions = {
 
 async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextOptions) {
     let defaultOptions: AnimateTextOptions = {
+        newText: undefined,
         times: 1000,
         pauseBefore: 500,
         pauseAfter: 1500,
@@ -25,6 +28,7 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
         beamAsPseudo: undefined,
         keepBeamAfterAnimation: false,
         decrementally: undefined,
+        onBeforeAnimationStart: undefined,
         onBeforeAnimationEnd: undefined,
         onAnimationEndTransformElement: undefined,
         callBack: undefined
@@ -112,11 +116,22 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
         texts.splice(texts.indexOf(currentText), 1);
         return [currentText, ...texts];
     })() : [currentText, ...texts]) : [currentText]) : texts;
-    if (!texts) return;
+    // if (!texts) return;
+    if (!texts) {
+        if(!options.newText){
+            return
+        } else {
+            texts = [options.newText]
+        }
+    }
     let isDecrementing = options.decrementally !== undefined ? options.decrementally : (currentText ? true : false)
     currentText = texts[0];
     let tdelay = options.typeDelay;
     let currentTextIndex = 0;
+
+    if(options.onBeforeAnimationStart !== undefined) {
+        options.onBeforeAnimationStart(element)
+    }
 
     if (typeof (options.times) === "number" && options.times >= 0) {
         const iteration = async () => {

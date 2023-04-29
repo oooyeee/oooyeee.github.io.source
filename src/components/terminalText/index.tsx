@@ -6,7 +6,7 @@ import { isClient } from "../../util/isEnvironment";
 
 import Chainer from "../../util/chainer";
 
-import { insertBefore, insertAfter } from "../../util/DOMelements";
+import { insertBefore, insertAfter, getRootComputedStylePropertyValue } from "../../util/DOMelements";
 
 import style from "./index.sv.gen.json"
 
@@ -16,6 +16,8 @@ import delay from "../../util/delay";
 
 import labelStyle from "../autogrowingTextArea/index.sv.gen.json"
 import AutogrowingTextArea from "../autogrowingTextArea";
+import EE from "../../util/browserEventEmitter";
+import { processCommand } from "./webCliProcessor";
 
 const text: string[] = [
     `As a person enthusiastic for coding`,
@@ -51,32 +53,91 @@ const text: string[] = [
 
 
 function TerminalConsole() {
+    let ee = new EE()
+
     useEffect(() => {
-        let form: HTMLInputElement = document.querySelector(`#${style.terminalConsoleContainerId}`)
-        let input: HTMLInputElement = document.querySelector(`#${style.terminalConsoleContainerId} > label > textarea`)
+        let textarea: HTMLTextAreaElement = document.querySelector(`#${style.terminalConsoleContainerId} > div > textarea`)
         let term: HTMLDivElement = document.querySelector(`.${style.terminalConsole}`)
 
-        const enterAndAppendText = (container: HTMLDivElement, input: HTMLInputElement) => {
-            let p = document.createElement("p")
-            p.innerHTML = input.value
-            input.value = ""
-            container.appendChild(p)
+        let span: HTMLSpanElement = document.querySelector(`#${style.terminalConsoleContainerId} > span`)
+
+        let spanPushTimes = 1
+        let spanPushHeight: string | number = getRootComputedStylePropertyValue("--consoleTextHeight");
+        spanPushHeight = parseInt(spanPushHeight.substring(0, spanPushHeight.length - 2));
+
+        const enterAndAppendText = (container: HTMLDivElement, textarea: HTMLTextAreaElement) => {
+
+            let [newLinesQuantity, resultTextList] = processCommand(textarea.value, {
+                linesContainer: term,
+                lineHeight: spanPushHeight as number,
+                linesShown: 1
+            })
+
+            if (!newLinesQuantity) { // should clear console if true
+                term.textContent = "";
+                textarea.value = ""
+                spanPushTimes = 1
+                span.style.top = "0px"
+            } else {
+                let p = document.createElement("p")
+                console.log("result text:")
+                console.log(resultTextList)
+                p.innerHTML = textarea.value
+                term.appendChild(p)
+                if (resultTextList && resultTextList[0] !== "") { // not empty prompt + not empty response
+                    // span.innerHTML = resultTextList.join("<br />")
+                    // let spans = []
+                    span.style.visibility = "hidden"
+                    textarea.style.visibility = "hidden"
+                    let chainer = new Chainer()
+                    for(let text of resultTextList) {
+                        let sp = document.createElement("span")
+                        sp.dataset["text"] = text
+                        // spans.push(sp)
+                        chainer.chain(AnimateText, sp, {
+                            onBeforeAnimationStart: ()=>{
+                                term.appendChild(sp);
+                                span.style.top = (spanPushTimes * (spanPushHeight as number)) + "px";
+                                spanPushTimes += 1;
+                            },
+                            times: 1,
+                            pauseBefore: 0,
+                            typeDelay: 20,
+                            pauseAfter: 0,
+                            addBeam: false,
+                        })
+                    }
+                    chainer.chain(()=>{
+                        span.style.visibility = "visible"
+                        textarea.style.visibility = "visible"
+                    })
+                    chainer.go()
+                    // spanPushTimes += newLinesQuantity
+                } else { // for empty prompt + response
+                }
+                
+                textarea.value = ""
+                span.style.top = (spanPushTimes * (spanPushHeight as number)) + "px"
+                spanPushTimes += 1;
+            }
+
         }
 
-        form.addEventListener("submit", (ev) => {
-            ev.preventDefault()
-
-            enterAndAppendText(term, input)
+        //============================================ Enter signal
+        ee.on("textAreaEnterPressed", () => {
+            enterAndAppendText(term, textarea)
         })
+
     }, [])
 
 
-    return (<form action="" id={style.terminalConsoleContainerId} className="WTF">
+    return (<label htmlFor={labelStyle.autogrowingTextArea + "-id"} id={style.terminalConsoleContainerId} className="WTF">
         <div className={style.terminalConsole}></div>
-        <label className={labelStyle.autogrowingTextAreaParentNode}>
-            <AutogrowingTextArea />
-        </label>
-    </form>)
+        <span>console:~$</span>
+        <div className={labelStyle.autogrowingTextAreaParentNode}>
+            <AutogrowingTextArea ee={ee} />
+        </div>
+    </label>)
 }
 
 
