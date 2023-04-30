@@ -2,36 +2,34 @@
 @use "./index.sv.gen" as gen
 
 @mixin main
-.#{gen.$autogrowingTextAreaParentNode}
-    display: grid
+.#{gen.$autogrowingTextAreaParentNode} // label
+    display: block
     width: 100%
-    &:after
-        content: attr(data-replicated-value) " "
-        white-space: pre-wrap
-        visibility: hidden
-        resize: none
-        overflow: hidden
-        font: inherit
-        grid-area: 1/1/2/2
-.#{gen.$autogrowingTextArea}
+    height: fit-content
+.#{gen.$autogrowingTextArea} // p
     box-sizing: content-box
     width: 100%
     position: relative
     resize: none
     overflow: hidden
     white-space: revert
-    grid-area: 1/1/2/2
     word-wrap: break-word
     hyphens: auto
     text-indent: 109px
-    border-bottom: 2px solid lienar-gradient(to left, red 50%, blue 100%)
+    // border-bottom: 2px solid lienar-gradient(to left, red 50%, blue 100%)
     // border-width: 3px
     // border-style: solid
     // border-image-source: linear-gradient(to left, #743ad5, #d53a9d)
-    &::placeholder
-        color: #aaa
-    // &:focus
-    //     outline: 4px solid vars.$blue3
+    &:focus
+        outline: 4px solid vars.$blue3
+    &:before
+        color: #28960c
+        content: "console:~$ "
+        font-weight: 200
+        white-space: pre
+        // contenteditable: false
+        position: absolute
+        left: -109px
 
 @keyframes anime4autogrowingTextAreaBorder
     0%

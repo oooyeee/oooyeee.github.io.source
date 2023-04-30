@@ -1,35 +1,37 @@
 const newLineChar = "<br />"
 
-type ProcessCommandOptions = {
-    linesContainer: HTMLDivElement
-    linesShown: number
-    lineHeight: number
+
+type ProcessCommandReturnType = string[] | null
+
+type Commands = {
+    [key: string]: (args: string) => ProcessCommandReturnType
 }
 
-type ProcessCommandReturnType = [number, string[]]
-
-let commands: { [key: string]: (cmdLine: string) => ProcessCommandReturnType } = {
-    "clear": () => {
-        return [0, [""]]
+let commands: Commands = {
+    "clear": (args) => {
+        return null
     },
-    "history": () => {
-        return [1, ["history"]]
+    "hello": (args) => {
+        return ["world"]
     },
+    "hello2": (args) => {
+        return ["hello", "world", "kek"]
+    }
 }
 
-let commandList = Object.keys(commands)
-commands["help"] = () => {
-    return [
-        commandList.length + 1,
-        [...commandList, "help"]
-    ]
+const helpText = (()=>{
+    let keys = Object.keys(commands)
+    return keys
+})();
+
+commands["help"] = (args) => {
+    return helpText
 }
-commands[""] = () => {
-    return [
-        1,
-        [""]
-    ]
+
+commands[""] = (args) => {
+    return [""]
 }
+
 
 function trimLeft(str: string) {
     return str.trimStart()
@@ -39,22 +41,22 @@ function firstWord(str: string) {
     return str.replace(/ .*/, '');
 }
 
-function processCommand(cmd: string, options: ProcessCommandOptions): ProcessCommandReturnType {
+function processCommand(commandString: string): ProcessCommandReturnType {
 
-    let shouldAddLine = 1;
-    let returnTextList = ["unprocessable command: " + cmd];
+    let commandStripped = trimLeft(commandString);
+    let cmd = firstWord(commandStripped);
+    let args = commandStripped.replace(/^(\S+)\s*/, "");
 
-    let command = firstWord(trimLeft(cmd))
-    console.log(":: command:" + command)
-    let proc = commands[command]
+    let result = commands[cmd]
 
-    if (!!proc) {
-        [shouldAddLine, returnTextList] = proc(cmd)
-    } else {
-        // do nothing
+    if (!result) {
+        return ["unprocessable command: " + commandString]
     }
 
-    return [shouldAddLine, returnTextList]
+    console.log(" internal result")
+    console.log(result(args));
+    
+    return result(args)
 }
 
 

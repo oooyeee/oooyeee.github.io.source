@@ -11,12 +11,16 @@ export type AnimateTextOptions = {
     beamAsPseudo?: boolean, // pseudo class spanElement::after that would animate beam (should have content: "|")
     keepBeamAfterAnimation?: boolean,
     decrementally?: boolean,
+    abortSignal?: AbortSignal,
     onBeforeAnimationStart?: (element: HTMLElement) => void,
     onBeforeAnimationEnd?: (element: HTMLElement) => void,
     onAnimationEndTransformElement?: (element: HTMLElement) => void,
     callBack?: (element: HTMLElement) => void
 }
 
+/**
+ * uses el.innerText and dataset["text"] (or data-text) value for texts
+ */
 async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextOptions) {
     let defaultOptions: AnimateTextOptions = {
         newText: undefined,
@@ -28,6 +32,7 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
         beamAsPseudo: undefined,
         keepBeamAfterAnimation: false,
         decrementally: undefined,
+        abortSignal: new AbortController().signal,
         onBeforeAnimationStart: undefined,
         onBeforeAnimationEnd: undefined,
         onAnimationEndTransformElement: undefined,
@@ -118,7 +123,7 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
     })() : [currentText, ...texts]) : [currentText]) : texts;
     // if (!texts) return;
     if (!texts) {
-        if(!options.newText){
+        if (!options.newText) {
             return
         } else {
             texts = [options.newText]
@@ -129,14 +134,14 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
     let tdelay = options.typeDelay;
     let currentTextIndex = 0;
 
-    if(options.onBeforeAnimationStart !== undefined) {
+    if (options.onBeforeAnimationStart !== undefined) {
         options.onBeforeAnimationStart(element)
     }
 
     if (typeof (options.times) === "number" && options.times >= 0) {
         const iteration = async () => {
             if (isDecrementing) {
-                for (let i = currentText.length; i >= 0; i--) {
+                for (let i = currentText.length; !options.abortSignal.aborted && i >= 0; i--) {
                     await delay(tdelay, () => {
                         element.innerText = currentText.slice(0, i)
                     });
@@ -149,8 +154,8 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
                     currentTextIndex = 0;
                 }
                 currentText = texts[currentTextIndex];
-            } else {
-                for (let i = 0; i <= currentText.length; i++) {
+            } else { // incrementing ()
+                for (let i = 0; !options.abortSignal.aborted && i <= currentText.length; i++) {
                     await delay(tdelay, () => {
                         element.innerText = currentText.slice(0, i)
                     });
@@ -162,15 +167,17 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
 
         if (options.times === Infinity) {
             while (true) {
+                // console.log("abort in anime while: " + options.abortSignal.aborted)
                 await iteration();
             }
         } else {
             for (let i = options.times; i > 0; i--) {
+                // console.log("abort in anime for: " + options.abortSignal.aborted)
                 await iteration();
             }
         }
 
-        if(options.onBeforeAnimationEnd !== undefined) {
+        if (options.onBeforeAnimationEnd !== undefined) {
             options.onBeforeAnimationEnd(element)
         }
 

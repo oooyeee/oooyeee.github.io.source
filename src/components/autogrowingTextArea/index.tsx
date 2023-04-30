@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import EE from "../../util/browserEventEmitter";
 
 
@@ -8,32 +8,60 @@ import style from "./index.sv.gen.json"
 type AutogrowingTextAreaProps = {
     name?: string
     placeholder?: string
-    ee?: EE
+    ee?: EE,
+    textareaRef: MutableRefObject<any>
 }
-function AutogrowingTextArea({ name = "", placeholder = "", ee = null }: AutogrowingTextAreaProps) {
-    const textareaRef = useRef(null);
 
-    const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (ev) => {
+
+
+function AutogrowingTextArea({ name = "", placeholder = "", ee = null, textareaRef }: AutogrowingTextAreaProps) {
+    // const textareaRef = useRef(null);
+    const caretPosition = useRef(null)
+
+    const handleOnBlur: React.FocusEventHandler<HTMLParagraphElement> = (ev) => {
+        caretPosition.current = window.getSelection().getRangeAt(0);
+    }
+
+    useEffect(() => {
+        let el = textareaRef.current as HTMLParagraphElement
+        //============================================ Focus signal
+        ee.on("focus", () => {
+            if (document.activeElement !== el) {
+                el.focus({
+                    preventScroll: false
+                });
+
+                if (caretPosition.current) {
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(caretPosition.current);
+                }
+                // console.log("caret pos: " + (caretPosition.current as Range).endOffset)
+            }
+
+        })
+    }, []);
+
+    const handleKeyDown: React.KeyboardEventHandler<HTMLParagraphElement> = (ev) => {
+        console.log(" ctrl + c in Paragraph AREA");
         if (ev.key === "Enter") { // Check for "Enter" key
             ev.preventDefault()
+            // let el = textareaRef.current as HTMLParagraphElement
+            // console.log("on ENTER inner text: " + el.innerText)
             !!ee && ee.emit("textAreaEnterPressed")
+        } else if (ev.ctrlKey && ev.key === "c") {
+            
+            !!ee && ee.emit("textAreaInterruptSignal")
         }
     }
 
-    const handleInput: React.FormEventHandler<HTMLTextAreaElement> = (ev) => {
-        const target = ev.currentTarget
-        const value = textareaRef.current.value.trimEnd()
-        target.style.height = target.scrollHeight + 'px';        
-        ;((textareaRef.current as HTMLElement).parentNode as unknown as { dataset: { replicatedValue: string } }).dataset.replicatedValue = value
-    }
-    return (<textarea className={style.autogrowingTextArea}
+    return (<p className={style.autogrowingTextArea}
         id={style.autogrowingTextArea + "-id"}
-        rows={1}
+        tabIndex={-1}
+        contentEditable={true}
         ref={textareaRef}
-        name={name}
-        placeholder={placeholder}
-        onInput={handleInput}
         onKeyDown={handleKeyDown}
-    ></textarea>)
+        onBlur={handleOnBlur}
+    ></p>)
 }
 export default AutogrowingTextArea

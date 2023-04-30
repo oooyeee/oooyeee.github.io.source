@@ -5,8 +5,12 @@ type FNType = {
 
 class Chainer {
     #chain: FNType[]
-    constructor() {
+    #abortSignal: AbortSignal
+    isRunning: boolean
+    constructor(abortSignal: AbortSignal = null) {
         this.#chain = [];
+        this.#abortSignal = abortSignal
+        this.isRunning = false
     }
 
     // chain<T extends any[]>(fn: (...params: T) => any, ...params: T) {
@@ -19,9 +23,11 @@ class Chainer {
     }
 
     async go() {
+        this.isRunning = true
         for (let { fn, params } of this.#chain) {
-            await fn(...params)
+            !this.#abortSignal?.aborted && await fn(...params)
         }
+        this.isRunning = false
     }
 }
 
