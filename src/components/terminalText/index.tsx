@@ -17,40 +17,7 @@ import delay from "../../util/delay";
 import labelStyle from "../autogrowingTextArea/index.sv.gen.json"
 import AutogrowingTextArea from "../autogrowingTextArea";
 import EE from "../../util/browserEventEmitter";
-import { processCommand } from "./webCliProcessor";
-
-const text: string[] = [
-    `As a person enthusiastic for coding`,
-    `committed to continual learning`,
-    `with a taste for innovation`,
-    `i asked ChatGPT to describe me`, // i = 3
-
-    `He is a talented JavaScript developer, known `,
-    `for his ability to write clean and efficient code.`,
-    `He possesses a deep understanding of programming `,
-    `concepts and has a wealth of`,
-    `experience in JavaScript and web development. `,
-    `He is able to handle complex projects with`,
-    `ease and is able to deliver results under tight deadlines. `,
-    `He is passionate about technology`,
-    `and continuously seeks to expand his skillset. `,
-    `He is a valuable asset to any team due to his`,
-    `adaptability and ability to stay current `,
-    `with industry trends.`
-]
-
-
-// const text: Array<Array<string | JSX.Element>> = [
-//     ["i was born as a baby"],
-//     ["learned javascript"],
-//     [`and other scary words `, <b style={{ color: "yellow" }}>☻</b>],
-//     ["and now i focus on solving puzzles,"],
-//     ["assemble code pieces together"],
-//     ["and am trying to create value"],
-//     ["for other people"],
-// ];
-
-
+import { aboutText, processCommand } from "./webCliProcessor";
 
 function TerminalConsole() {
     let ee = new EE()
@@ -59,9 +26,13 @@ function TerminalConsole() {
 
     let abortRef = useRef(new AbortController())
 
+    let isTextSelecting = useRef(false)
+
+    let textSelection = useRef(null)
+
     let chainer = useRef(new Chainer(abortRef.current.signal))
 
-    const handleOnLabelClick: React.MouseEventHandler<HTMLLabelElement> = (ev) => {
+    const emitFocus = () => {
         if (chainer.current.isRunning) {
             ee.emit("focusLabel")
         } else {
@@ -69,10 +40,28 @@ function TerminalConsole() {
         }
     }
 
+    const handleOnLabelClick: React.MouseEventHandler<HTMLLabelElement> = (ev) => {
+        checkSelection()
+    }
+
+    const checkSelection = () => {
+        let currentText = window.getSelection().toString();
+        if (currentText.length > 0) { // dont focus on other things when selecting output text
+            console.log(">>> on selection  >> IS SELECTED");
+            isTextSelecting.current = true
+            textSelection.current = currentText
+        } else {
+            console.log(">>> on selection  >> IS NOT SELECTED");
+            isTextSelecting.current = false;
+            emitFocus()
+        }
+    }
+
     const handleKeyDown: React.KeyboardEventHandler<HTMLLabelElement> = (ev) => {
         if (ev.ctrlKey && ev.key === "c") {
             ev.preventDefault();
             console.log("ctrl + c in LABEL");
+            isTextSelecting.current && navigator.clipboard.writeText(textSelection.current)
             !!ee && ee.emit("textAreaInterruptSignal")
         }
     }
@@ -82,16 +71,26 @@ function TerminalConsole() {
         let textarea: HTMLParagraphElement = pRef.current
         let term: HTMLDivElement = document.querySelector(`.${style.terminalConsole}`)
 
-        const enterAndAppendText = () => {
-            let result = processCommand(textarea.innerText)
+        const enterAndAppendText = (text: string[] = undefined, dummyCommand: string = undefined) => {
+            let result = text ?? processCommand(textarea.innerText)
 
-            if (result === null) {
+            if (result === null) { // clear screen
                 term.textContent = ""
                 textarea.textContent = "";
+                window.scrollTo({
+                    behavior: "smooth",
+                    top: label.offsetTop
+                })
+                textarea.focus()
                 return;
             }
 
-            result.unshift(textarea.innerText)
+            if (dummyCommand) {
+                result.unshift(dummyCommand)
+            } else {
+                result.unshift(textarea.innerText)
+            }
+
             let lines = result.length
 
             textarea.textContent = "";
@@ -122,20 +121,16 @@ function TerminalConsole() {
                     abortSignal: (abortRef.current as AbortController).signal,
                     times: 1,
                     pauseBefore: 0,
-                    typeDelay: 20,
+                    typeDelay: 1,
                     pauseAfter: 0,
                     addBeam: false,
                 })
             }
 
-            // chainer.current.chain(() => {
-            //     textarea.style.visibility = "visible"
-            //     textarea.focus()
-            // })
             chainer.current.go().then(() => {
                 abortRef.current = new AbortController()
                 chainer.current = new Chainer(abortRef.current.signal)
-                
+
                 textarea.style.visibility = "visible"
                 textarea.focus()
             });
@@ -167,12 +162,38 @@ function TerminalConsole() {
             label.focus()
         })
 
+        //============================================ On first intersection
+        const intersectionCb: IntersectionObserverCallback = (entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // console.log(":: more than 15% is visible LABEL::")
+                    enterAndAppendText([aboutText.join(" ")], `cat ./about.txt`)
+                    observer.unobserve(label)
+                } else {
+                    // console.log(":: LESS than 10% is visible  ::")
+                }
+            })
+        }
+
+        const observerOptions: IntersectionObserverInit = {
+            root: null,
+            threshold: 0.15
+        }
+
+        let observer = new IntersectionObserver(intersectionCb, observerOptions)
+        observer.observe(label)
+
+        //============================================ On selection change
+        // label.addEventListener("selectionchange", onSelectionChange);
+        // label.addEventListener("select", onSelectionChange);
+        // label.addEventListener("selectstart", onSelectionChange);
     }, [])
 
 
     return (<label
         htmlFor={labelStyle.autogrowingTextArea + "-id"}
         onClick={handleOnLabelClick}
+        // onSelect={onSelectionChange}
         tabIndex={-1}
         // contentEditable={true}
         onKeyDown={handleKeyDown}

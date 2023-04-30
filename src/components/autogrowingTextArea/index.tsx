@@ -43,13 +43,13 @@ function AutogrowingTextArea({ name = "", placeholder = "", ee = null, textareaR
     }, []);
 
     const handleKeyDown: React.KeyboardEventHandler<HTMLParagraphElement> = (ev) => {
-        console.log(" ctrl + c in Paragraph AREA");
         if (ev.key === "Enter") { // Check for "Enter" key
             ev.preventDefault()
             // let el = textareaRef.current as HTMLParagraphElement
             // console.log("on ENTER inner text: " + el.innerText)
             !!ee && ee.emit("textAreaEnterPressed")
         } else if (ev.ctrlKey && ev.key === "c") {
+            console.log(" ctrl + c in Paragraph AREA");
             
             !!ee && ee.emit("textAreaInterruptSignal")
         }

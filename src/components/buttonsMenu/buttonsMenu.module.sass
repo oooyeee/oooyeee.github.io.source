@@ -3,90 +3,91 @@
 
 $height: vars.$headerInnerHeight
 
-@mixin main
-.#{gen.$buttonsMenu}
-    margin-right: 16px
-    display: flex
-    flex-direction: row
-    align-items: center
-    justify-content: flex-end
-    gap: 12px
-    height: $height
-    line-height: $height
+@mixin main($layerDiff: 0)
+    .#{gen.$buttonsMenu}
+        margin-right: 16px
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: flex-end
+        gap: 12px
+        height: $height
+        line-height: $height
+        +vars.layer2($layerDiff)
+        & *
+            +vars.layer2($layerDiff)
+    ##{gen.$animationSwitch}
+        display: block
+        width: 32px
+        height: 28px
+        box-sizing: border-box
+        // border-radius: 4px
+        cursor: pointer
+        & > svg
+            width: 100%
+            height: 100%
+            stroke: vars.$blue4
+            stroke-width: 8px
+            transition: 0.5s ease
+            &:hover
+                transform: rotate(180deg)
 
+    @keyframes fireworksButtonAnimation
+        0%
+            stroke: vars.$blue4
+        100%
+            stroke: transparent
 
-##{gen.$animationSwitch}
-    display: block
-    width: 32px
-    height: 28px
-    box-sizing: border-box
-    // border-radius: 4px
-    cursor: pointer
-    & > svg
-        width: 100%
-        height: 100%
-        stroke: vars.$blue4
-        stroke-width: 8px
-        transition: 0.5s ease
-        &:hover
-            transform: rotate(180deg)
-
-@keyframes fireworksButtonAnimation
-    0%
-        stroke: vars.$blue4
-    100%
-        stroke: transparent
-
-##{gen.$fireworksSwitch}
-    display: block
-    width: 32px
-    height: 28px
-    box-sizing: border-box
-    // border-radius: 4px
-    cursor: pointer
-    & > svg
-        width: 100%
-        height: 100%
-        stroke: vars.$blue4
-        stroke-width: 8px
-        stroke-linecap: round
-        & path:nth-child(1)
-            stroke: white
-        &:hover
-            animation: fireworksButtonAnimation 0.75s ease-in infinite alternate
+    ##{gen.$fireworksSwitch}
+        display: block
+        width: 32px
+        height: 28px
+        box-sizing: border-box
+        // border-radius: 4px
+        cursor: pointer
+        & > svg
+            width: 100%
+            height: 100%
+            stroke: vars.$blue4
+            stroke-width: 8px
+            stroke-linecap: round
             & path:nth-child(1)
-                stroke: transparent
-                transition: 0.15s ease
+                stroke: white
+            &:hover
+                animation: fireworksButtonAnimation 0.75s ease-in infinite alternate
+                & path:nth-child(1)
+                    stroke: transparent
+                    transition: 0.15s ease
 
-#checkbox--fireworks-switch:not(checked) ~ * ##{gen.$fireworksSwitch}
-    & > svg path
-        transition: 0.15s
+    #checkbox--fireworks-switch:not(checked) ~ * ##{gen.$fireworksSwitch}
+        & > svg path
+            transition: 0.15s
 
-#checkbox--fireworks-switch:checked ~ * ##{gen.$fireworksSwitch}
-    & > svg path
-        transition: 0.3s ease
-        stroke: crimson
-        &:nth-child(1)
-            stroke: white
-            d: path("M 65,65 L 92,92")
-        &:nth-child(5)
-            d: path("M 55,75 L 75,55")
-        &:nth-child(4)
-            d: path("M 55,75 L 25,45")
-        &:nth-child(8)
-            d: path("M 25,45 L 20,20")
-        &:nth-child(6)
-            d: path("M 20,20 L 45,25")
-        &:nth-child(7)
-            d: path("M 45,25 L 75,55")
-        &:nth-child(2)
-            d: path("M 45,25 L 25,45")
-        &:nth-child(3)
-            // stroke-width: 4px
-            d: path("M 75,60 L 90,75")
-#checkbox--animation-switch:checked ~ * ##{gen.$animationSwitch}
-    & > svg path
-        stroke: crimson
-        transition: 0.3s ease
-        
+    #checkbox--fireworks-switch:checked ~ * ##{gen.$fireworksSwitch}
+        & > svg path
+            transition: 0.3s ease
+            stroke: crimson
+            &:nth-child(1)
+                stroke: white
+                d: path("M 65,65 L 92,92")
+            &:nth-child(5)
+                d: path("M 55,75 L 75,55")
+            &:nth-child(4)
+                d: path("M 55,75 L 25,45")
+            &:nth-child(8)
+                d: path("M 25,45 L 20,20")
+            &:nth-child(6)
+                d: path("M 20,20 L 45,25")
+            &:nth-child(7)
+                d: path("M 45,25 L 75,55")
+            &:nth-child(2)
+                d: path("M 45,25 L 25,45")
+            &:nth-child(3)
+                // stroke-width: 4px
+                d: path("M 75,60 L 90,75")
+    #checkbox--animation-switch:checked ~ * ##{gen.$animationSwitch}
+        & > svg path
+            stroke: crimson
+            transition: 0.3s ease
             
+                

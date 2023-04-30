@@ -3,68 +3,73 @@
 
 $headerHeight: vars.$headerHeight
 
-@mixin main
-.#{gen.$navigationMenu}
-    display: flex
-    flex-direction: row
-    align-items: center
-    justify-content: flex-end
-    gap: 12px
-    background-color: vars.$blue7
-    // backdrup-filter: blur(2px)
-    // @media (max-width: vars.$smallMax + 100px)
-    //     display: none
-    // @media (min-width: vars.$mediumMin)
-    //     display: none
-    & > a
-        user-select: none
-        width: 100%
-        height: 32px
-        line-height: 32px
-        text-align: right
-        &:hover
-            text-shadow: 2px 2px vars.$blue3, 1px -1px white
-    
-
-##{gen.$navigationBurger}
-    height: 35px
-    width: 32px
-    cursor: pointer
-    @media (min-width: vars.$mediumMin + 100px)
-        display: none
-    & > svg
-        width: 100%
-        height: 32px
-
-@keyframes animateNavMenu
-    0%
-        transform: translateX(50vw)
-    100%
-        transform: translateX(0px)
-
-@media (max-width: vars.$smallMax + 100px)
-    #checkbox--nav:checked ~ * ##{gen.$navigationBurger} svg
-        & path
-            transition: 0.5s ease
-        & path:nth-child(1)
-            d: path("M 8,82.5 L 92,17.5")
-        & path:nth-child(2)
-            d: path("M 70,50 L 90,50")
-            opacity: 0
-        & path:nth-child(3)
-            d: path("M 8,17.5 L 92,82.5")
-
-
-    #checkbox--nav:not(checked) ~ * .#{gen.$navigationMenu}
-        display: none
-
-    #checkbox--nav:checked ~ * .#{gen.$navigationMenu}
-        animation: animateNavMenu 0.12s linear forwards normal
-        position: absolute
-        right: 0px
-        top: $headerHeight
+@mixin main($layerDiff: 0)
+    .#{gen.$navigationMenu}
         display: flex
-        flex-direction: column
-        padding-right: vars.$sideMarginSize
-        padding-bottom: 12px
-        padding-left: 12px
+        flex-direction: row
+        align-items: center
+        justify-content: flex-end
+        gap: 12px
+        // background-color: vars.$blue7
+        background-color: transparent
+        // backdrup-filter: blur(2px)
+        // @media (max-width: vars.$smallMax + 100px)
+        //     display: none
+        // @media (min-width: vars.$mediumMin)
+        //     display: none
+        +vars.layer2($layerDiff)
+        & *
+            +vars.layer2($layerDiff)
+        & > a
+            user-select: none
+            width: 100%
+            height: 32px
+            line-height: 32px
+            text-align: right
+            &:hover
+                text-shadow: 2px 2px vars.$blue3, 1px -1px white
+    ##{gen.$navigationBurger}
+        height: 35px
+        width: 32px
+        cursor: pointer
+        +vars.layer2($layerDiff)
+        & *
+            +vars.layer2($layerDiff)
+        @media (min-width: vars.$mediumMin + 100px)
+            display: none
+        & > svg
+            width: 100%
+            height: 32px
+
+    @keyframes animateNavMenu
+        0%
+            transform: translateX(50vw)
+        100%
+            transform: translateX(0px)
+
+    @media (max-width: vars.$smallMax + 100px)
+        #checkbox--nav:checked ~ * ##{gen.$navigationBurger} svg
+            & path
+                transition: 0.5s ease
+            & path:nth-child(1)
+                d: path("M 8,82.5 L 92,17.5")
+            & path:nth-child(2)
+                d: path("M 70,50 L 90,50")
+                opacity: 0
+            & path:nth-child(3)
+                d: path("M 8,17.5 L 92,82.5")
+
+
+        #checkbox--nav:not(checked) ~ * .#{gen.$navigationMenu}
+            display: none
+
+        #checkbox--nav:checked ~ * .#{gen.$navigationMenu}
+            animation: animateNavMenu 0.12s linear forwards normal
+            position: absolute
+            right: 0px
+            top: $headerHeight
+            display: flex
+            flex-direction: column
+            padding-right: vars.$sideMarginSize
+            padding-bottom: 12px
+            padding-left: 12px

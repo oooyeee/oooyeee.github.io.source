@@ -33,6 +33,7 @@ function IndexTemplate({ children, hydration }: { children: ReactNode, hydration
         <html lang="en">
             <head>
                 <meta charSet="UTF-8" />
+                <meta name="description" content="Yaroslav Minakov | Personal website" />
                 {addGoogleFontPreloaded()}
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -48,8 +49,19 @@ function IndexTemplate({ children, hydration }: { children: ReactNode, hydration
                 `.split(" ").join("")
                 }}></style>
                 <script type="application/json" id={`${ssr_json}`} dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...hydration }) }}></script>
-                <script crossOrigin="anonymous" defer src="https://unpkg.com/react@18/umd/react.development.js"></script>
-                <script crossOrigin="anonymous" defer src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+                {
+                    process.env["IS_BUILD"] == "true" ?
+                        <>
+                            <script crossOrigin="anonymous" defer src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+                            <script crossOrigin="anonymous" defer src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+                        </>
+                        :
+                        <>
+                            <script crossOrigin="anonymous" defer src="https://unpkg.com/react@18/umd/react.development.js"></script>
+                            <script crossOrigin="anonymous" defer src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+                        </>
+
+                }
                 {/* entry */}
                 <script type={process.env["IS_BUILD"] == "true" ? null : "module"} defer src="/js/main.client.js"></script>
             </head>

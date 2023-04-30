@@ -4,6 +4,7 @@
 @use "../../languageMenu/languageMenu.module.sass" as languageMenu
 @use "../../navigationMenu/navigationMenu.module.sass" as navigationMenu
 @use "../../buttonsMenu/buttonsMenu.module.sass" as buttonsMenu
+@use "../../closeHeaderMenus/closeHeaderMenus.module.sass" as closeHeaderMenus
 
 $yellow: vars.$yellow1
 $headerHeight: vars.$headerHeight
@@ -11,8 +12,13 @@ $headerHeight: vars.$headerHeight
 //--sideMargins in root
 
 @mixin main
-.#{gen.$header}
+.#{gen.$headerWrapper}
     position: fixed
+    width: 100%
+    height: fit-content
+    +vars.layer2
+.#{gen.$header}
+    position: relative
     +vars.layer2
     display: flex
     flex-direction: row
@@ -28,6 +34,8 @@ $headerHeight: vars.$headerHeight
     padding: 0px var(--sideMargins)
     
 
+
 +languageMenu.main
 +buttonsMenu.main
 +navigationMenu.main
++closeHeaderMenus.main(-1)
