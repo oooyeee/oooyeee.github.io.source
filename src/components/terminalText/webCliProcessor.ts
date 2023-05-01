@@ -5,7 +5,6 @@ const aboutText: string[] = [
     `Typescript, C#, SQL, Responsive Design, Automation, DevOps, Networking`,
     `and other scary words, but particularly enjoy developing software for the web.`,
     `If you are as enthusiastic about technology as i am, lets get in touch!`,
-    " ",
     "Btw, try other commands, type: help"
 ]
 
