@@ -45,6 +45,8 @@
         text-align: justify
         &:active
             outline: 2px solid green
+    & p:not(.#{gen.$terminalConsole}_multiline)
+        text-shadow: 0 0 3px vars.$yellow2
     & p:not(.#{gen.$terminalConsole}_multiline):before
         color: #96880c
         content: "console:~$ "

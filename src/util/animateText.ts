@@ -70,17 +70,6 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
             }
 
         } else {
-            // element.classList.add(options.beamAsPseudo)
-            // requires having in sass:
-            // .adds-beam-after
-            //     &:after
-            //         content: "|"
-            //         animation: animateBeam 1.25s linear forwards infinite
-            //         color: #fff
-            //         font-weight: 300
-
-
-
             const styleId = "__animateText__"
             const beamClassName = "__animateText__adds-beam-after"
             if (!document.querySelector("style#" + styleId)) {
@@ -112,8 +101,7 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
             }
         }
     }
-    // console.log(":: LOGGING ELEMENT ::");
-    // console.log(element)
+
     let datatext = element.dataset["text"] ?? null;
     let texts = datatext ? datatext.split(";") : null;
     let currentText = element.innerText || null;
@@ -121,7 +109,7 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
         texts.splice(texts.indexOf(currentText), 1);
         return [currentText, ...texts];
     })() : [currentText, ...texts]) : [currentText]) : texts;
-    // if (!texts) return;
+
     if (!texts) {
         if (!options.newText) {
             return
@@ -167,12 +155,10 @@ async function AnimateText(element: HTMLElement, animationOptions?: AnimateTextO
 
         if (options.times === Infinity) {
             while (true) {
-                // console.log("abort in anime while: " + options.abortSignal.aborted)
                 await iteration();
             }
         } else {
             for (let i = options.times; i > 0; i--) {
-                // console.log("abort in anime for: " + options.abortSignal.aborted)
                 await iteration();
             }
         }

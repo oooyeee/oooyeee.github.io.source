@@ -10,7 +10,6 @@ import { insertBefore, insertAfter, getRootComputedStylePropertyValue } from "..
 
 import style from "./index.sv.gen.json"
 
-
 import { terminalConsoleContainerId } from "./constants"
 import delay from "../../util/delay";
 
@@ -121,7 +120,7 @@ function TerminalConsole() {
                     abortSignal: (abortRef.current as AbortController).signal,
                     times: 1,
                     pauseBefore: 0,
-                    typeDelay: 1,
+                    typeDelay: 10,
                     pauseAfter: 0,
                     addBeam: false,
                 })
