@@ -3,55 +3,73 @@ import type { ReactNode } from "react"
 import { ssr_json_id } from "../constants"
 
 const addGoogleFontPreloaded = () => {
-    // lighthouse gives 85/100 if media=print is used with onload,
-    // if onload is removed and media=all lighthouse gives 100/100 ???
+    // const href = "https://fonts.googleapis.com/css?family=Orbitron|Play&display=swap"
+    const href = "https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Montserrat:wght@100;200;400;700&family=Orbitron:wght@400;700&family=Play:wght@400;700&family=Poiret+One&display=swap"
+
+    // const href2 = "https://fonts.cdnfonts.com/css/alegre-sans"
+
     const LinkFixed = () => (<script async dangerouslySetInnerHTML={{
         __html: [
             `const preloadLink = document.createElement("link");`,
-            `preloadLink.href = "https://fonts.googleapis.com/css?family=Orbitron|Play&display=swap";`,
+            `preloadLink.href = "${href}";`,
             `preloadLink.rel = "stylesheet";`,
             `preloadLink.media = "print";`,
             // `preloadLink.fetchPriority = "high";`,
-            `preloadLink.setAttribute("onload", "this.media='all'; console.log('should load font')");`,
+            `preloadLink.setAttribute("onload", "this.media='all'");`,
             `document.head.appendChild(preloadLink);`,
         ].join("\n")
     }}>
     </script>)
 
+// const LinkFixed2 = () => (<script async dangerouslySetInnerHTML={{
+//     __html: [
+//         `const preloadLink = document.createElement("link");`,
+//         `preloadLink.href = "${href2}";`,
+//         `preloadLink.rel = "stylesheet";`,
+//         `preloadLink.media = "print";`,
+//         // `preloadLink.fetchPriority = "high";`,
+//         `preloadLink.setAttribute("onload", "this.media='all'");`,
+//         `document.head.appendChild(preloadLink);`,
+//     ].join("\n")
+// }}>
+// </script>)
+
     return (<>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Orbitron|Play&display=swap" />
+        <link rel="preconnect" href="https://fonts.cdnfonts.com" crossOrigin="" />
+        <link rel="preload" as="style" href={href} />
+        {/* <link rel="preload" as="style" href={href2} /> */}
         <LinkFixed />
+        {/* <LinkFixed2 /> */}
         <noscript>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron|Play&display=swap" />
+            <link rel="stylesheet" href={href} />
+            {/* <link rel="stylesheet" href={href2} /> */}
         </noscript>
     </>)
 }
 
-type IndexTemplateProps = {
+type ResumeTemplateProps = {
     children: ReactNode
     hydration: any
     jsentry: string
     cssentry: string
 }
 
-function IndexTemplate({ children, hydration, jsentry, cssentry }: IndexTemplateProps) {
+function ResumeTemplate({ children, hydration, jsentry, cssentry }: ResumeTemplateProps) {
     return (
         <html lang="en">
             <head>
                 <meta charSet="UTF-8" />
-                <meta name="description" content="Yaroslav Minakov | Personal website" />
+                <meta name="Author" content="Yaroslav Minakov" />
+                <meta name="description" content="Yaroslav Minakov | Resume page" />
                 {addGoogleFontPreloaded()}
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta name="theme-color" content="#37508c" />
                 {process.env["IS_BUILD"] == "true" ? <link rel="stylesheet" href={cssentry}></link> : <script type="module" defer src={cssentry.split(".").reduce((acc, curr, i, arr) => {
-                    // this is needed for css hot reloading in vite, sass is included in client script module
-                    // on last reduce step, transform extension .css -> .js
-                    if (i >= arr.length - 1 ) {
+                    if (i >= arr.length - 1) {
                         return acc += "js";
                     }
-                    // on all but last steps 
                     return acc += curr + "."
                 }, "")}></script>}
                 <title>{hydration.title}</title>
@@ -89,4 +107,4 @@ function IndexTemplate({ children, hydration, jsentry, cssentry }: IndexTemplate
 
 
 
-export default IndexTemplate
+export default ResumeTemplate

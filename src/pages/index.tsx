@@ -10,6 +10,7 @@ import IndexTemplate from "./__index.template"
 
 import { appRoot, backgroundRoot, uiState } from "../constants"
 
+
 import { hydration } from "../constants"
 import { useEffect } from "react"
 import type { Hydration } from "../constants"
@@ -39,6 +40,8 @@ function HydratableApp({ hydration }: { hydration: Hydration }) {
 function Page() {
     return (
         IndexTemplate({
+            cssentry: "/css/main.bundle.css",
+            jsentry: "/js/main.client.js",
             hydration: { ...hydration },
             children: (<>
                 <input className="displaynone" type="checkbox" id={uiState.checkboxesIDs.language} />

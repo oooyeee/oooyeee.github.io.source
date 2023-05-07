@@ -1,6 +1,6 @@
 const aboutText: string[] = [
     `  Hi there, my name is Yaroslav. I'm glad you are reading this.`,
-    `Maybe you are looking for someone skilled in:`,
+    `Maybe you are looking for a full-stack developer skilled in:`,
     `Typescript, C#, SQL, Responsive Design, Automation, DevOps, Networking ? -`,
     `among other things. That is me. Lets get in touch!`
 ]

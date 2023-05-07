@@ -1,0 +1,218 @@
+@use "sass:math"
+    
+@mixin translate($x, $y)
+    transform: translate($x, $y)
+
+@mixin alphaBorder($position, $white, $alpha, $width, $spacing, $thickness: 3px)
+    @if ($position == 'TL')
+        border-top: $thickness solid rgba($white, $white, $white, $alpha)
+        border-left: $thickness solid rgba($white, $white, $white, $alpha)
+        width: $width
+        height: $width
+        top: $spacing
+        left: $spacing
+        border-bottom: $thickness solid rgba(0, 0, 0, 0)
+        border-right: $thickness solid rgba(0, 0, 0, 0)
+    @else if ($position == 'BR')
+        border-bottom: $thickness solid rgba($white, $white, $white, $alpha)
+        border-right: $thickness solid rgba($white, $white, $white, $alpha)
+        width: $width
+        height: $width
+        bottom: $spacing
+        right: $spacing
+        border-top: $thickness solid rgba(0, 0, 0, 0)
+        border-left: $thickness solid rgba(0, 0, 0, 0)
+    @else if ($position == 'BL')
+        border-bottom: $thickness solid rgba($white, $white, $white, $alpha)
+        border-left: $thickness solid rgba($white, $white, $white, $alpha)
+        width: $width
+        height: $width
+        bottom: $spacing
+        left: $spacing
+        border-top: $thickness solid rgba(0, 0, 0, 0)
+        border-right: $thickness solid rgba(0, 0, 0, 0)
+    @else //TR
+        border-top: $thickness solid rgba($white, $white, $white, $alpha)
+        border-right: $thickness solid rgba($white, $white, $white, $alpha)
+        width: $width
+        height: $width
+        top: $spacing
+        right: $spacing
+        border-bottom: $thickness solid rgba(0, 0, 0, 0)
+        border-left: $thickness solid rgba(0, 0, 0, 0)
+
+@mixin ShowCenteredVerticalLine()
+    .wrap::before
+        content: ''
+        position: fixed
+        width: 1px
+        height: 100vh
+        background-color: lightblue
+        left: 50%
+        transform: translateX(-50%)
+        z-index: 1000
+
+@mixin TetradkaVLineiku($lineheight, $paperheight: 1560px, $shiftFromTop: 0px)
+    content: ''
+    position: absolute
+    display: block
+    width: 100vw
+    height: $paperheight
+    top: $shiftFromTop
+    left: 50%
+    transform: translateX(-50%)
+    pointer-events: none
+    background: linear-gradient(lightblue 1px, transparent 1px) top left / $lineheight $lineheight
+
+// $guides_color: #5D4037
+$guides_color: turquoise
+
+@mixin  VerticalOverlay($baseWidth, $basePosition, $sideMargins, $columns: 1, $spaceBetweenColumns: 0px)
+    content: ''
+    pointer-events: none
+    position: fixed
+    display: block
+    z-index: 1000
+    background-blend-mode: overlay
+    width: $baseWidth
+    height: 100vh
+    @if ($basePosition == 'center')
+        left: 50%
+        transform: translateX(-50%)
+    @else if ($basePosition == 'left')
+        left: 0px
+        transform: translateX(0%)
+    @else if ($basePosition == 'right')
+        right: 0px
+        transform: translateX(0%)
+    @else //center default anyway
+        left: 50%
+        transform: translateX(-50%)
+        pointer-events: none
+
+    $columnWidth: CalcWidth($baseWidth - $sideMargins * 2, $columns, $spaceBetweenColumns)
+    --columnWidth:#{$columnWidth}
+    // THIS IS LIST LOL
+    $backgroundGradientList: ()
+    // APPENDING TO THE LIST
+    $backgroundGradientList: append($backgroundGradientList, GetVerticalGradientLine(0px), 'comma')
+    $backgroundGradientList: append($backgroundGradientList, GetVerticalGradientLine(0px, $sideMargins), 'comma')
+    $backgroundGradientList: append($backgroundGradientList, GetVerticalGradientLine($baseWidth, -$sideMargins), 'comma')
+    $offsetPos: 0px + $sideMargins
+    @if ($columns > 1)
+        @for $i from 1 to $columns
+            $offsetPos: $offsetPos + $columnWidth
+            $backgroundGradientList: append($backgroundGradientList, GetVerticalGradientLine($offsetPos), 'comma')
+            $offsetPos: $offsetPos + $spaceBetweenColumns
+            $backgroundGradientList: append($backgroundGradientList, GetVerticalGradientLine($offsetPos), 'comma')
+
+    // -1 because: will not draw if at full width
+    $backgroundGradientList: append($backgroundGradientList, GetVerticalGradientLine($baseWidth - 1))
+    background: $backgroundGradientList
+
+// END GridOverlay
+@function CalcWidth($baseWidth, $columns, $spacing: 0px)
+    // DEPRECATED, @use "sass:math"
+    // @return ($baseWidth - $spacing*($columns - 1)) / $columns
+    @return math.div($baseWidth - $spacing * ($columns - 1), $columns)
+
+@function GetVerticalGradientLine($position, $offset: 0px, $color: $guides_color, $width: 1px)
+    $offetPosition: $position + $offset
+    @return (linear-gradient(90deg, $color $width, transparent $width) top left $offetPosition)
+
+@mixin  HorisontalOverlay($height, $width, $basePosition, $sideMargins, $rows: 1, $spaceBetweenRows: 0px, $position: fixed)
+    content: ''
+    position: $position
+    width: $width
+    display: block
+    z-index: 1000
+    background-blend-mode: overlay
+    height: $height
+    @if ($basePosition == center)
+        // left: 50%
+        top: 50%
+        transform: translateY(-50%)
+    @else if ($basePosition == top)
+        top: 0px
+        transform: translateY(0%)
+    @else if ($basePosition == bottom)
+        bottom: 0px
+        transform: translateY(0%)
+    @else //center default anyway
+        left: 50%
+        top: 50%
+        transform: translate(-50%, 50%)
+        pointer-events: none
+
+    $rowHeight: CalcHeight($height - $sideMargins * 2, $rows, $spaceBetweenRows)
+    yoloswag: $rowHeight
+    // THIS IS LIST LOL
+    $backgroundGradientList: ()
+    // APPENDING TO THE LIST
+    $backgroundGradientList: append($backgroundGradientList, GetHorisontalGradientLine(0px), 'comma')
+    $backgroundGradientList: append($backgroundGradientList, GetHorisontalGradientLine(0px, $sideMargins), 'comma')
+    $backgroundGradientList: append($backgroundGradientList, GetHorisontalGradientLine($height, -$sideMargins), 'comma')
+    $offsetPos: 0px + $sideMargins
+    @if ($rows > 1)
+        @for $i from 1 to $rows
+            $offsetPos: $offsetPos + $rowHeight
+            $backgroundGradientList: append($backgroundGradientList, GetHorisontalGradientLine($offsetPos), 'comma')
+            $offsetPos: $offsetPos + $spaceBetweenRows
+            $backgroundGradientList: append($backgroundGradientList, GetHorisontalGradientLine($offsetPos), 'comma')
+
+    // -1 because: will not draw if at full Height
+    $backgroundGradientList: append($backgroundGradientList, GetHorisontalGradientLine($height - 1))
+    background: $backgroundGradientList
+
+@function CalcHeight($height, $rows, $spacing: 0px)
+    @return math.div($height - $spacing * $rows - 1, $rows)
+
+@function GetHorisontalGradientLine($position, $offset: 0px, $color: $guides_color, $height: 1px)
+    $offetPosition: $position + $offset
+    @return (linear-gradient(180deg, $color $height, transparent $height) left top $offetPosition)
+
+// @function GradientsUnwrap($GradientList)
+
+@mixin paddingResponsive($small: 56px, $medium: 56px, $large: 56px)
+    @media (min-width: 266px) and (max-width: 800px)
+        // padding-top: $small
+        // padding-bottom: $small
+        padding: $small $small * 0.75 $small 0px
+    @media (min-width: 801px) and (max-width: 1366px)
+        // padding-top: $medium
+        // padding-bottom: $medium
+        padding: $medium $medium * 0.75 $medium 0px
+    @media (min-width: 1367px)
+        // padding-top: $large
+        // padding-bottom: $large
+        padding: $large $large * 0.75 $large 0px
+
+@mixin antipaddingResponsive($small: 74px, $medium: 120px, $large: 180px)
+    @media (min-width: 266px) and (max-width: 800px)
+        margin-top: -$small
+    @media (min-width: 801px) and (max-width: 1366px)
+        margin-top: -$medium
+    @media (min-width: 1367px)
+        margin-top: -$large
+
+@mixin HorisontalGrid($lineStep, $lines, $position)
+    +HorisontalOverlay($lineStep * $lines, 100%, top, 0px, $lines, 0px, $position)
+
+    // $remSize: 16px
+
+@mixin lineSize($times)
+    height: $remSize * $times
+    line-height: $remSize * $times
+
+@mixin center($how: vertical)
+    @if ($how == vertical)
+        top: 50%
+        transform: translateY(-50%)
+    @else if ($how == center)
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+
+    @else if ($how == horisontal)
+        left: 50%
+        transform: translateX(-50%)

@@ -9,6 +9,7 @@ import config from "../config.js"
 
 // IMPORT STATIC PAGES
 import home_page from "../dist/pages/index.js"
+import resume_page from "../dist/pages/resume.js"
 
 //==============================================================================================
 const __defaultImportFix = (mdl) => {
@@ -55,7 +56,8 @@ let pages = new Pages();
 // ==============================================================================================
 // =================================================================================SSG BUILD====
 // ==============================================================================================
-pages.add("index.html", home_page)
+pages.add("index.html", home_page);
+pages.add("resume.html", resume_page);
 
 
 

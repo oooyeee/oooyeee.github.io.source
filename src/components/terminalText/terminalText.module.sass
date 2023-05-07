@@ -46,12 +46,13 @@
         &:active
             outline: 2px solid green
     & p:not(.#{gen.$terminalConsole}_multiline)
-        text-shadow: 0 0 3px vars.$yellow2
+        // text-shadow: 0 0 3px vars.$yellow2
     & p:not(.#{gen.$terminalConsole}_multiline):before
         color: #96880c
         content: "console:~$ "
         font-weight: 200
         white-space: pre
+        text-shadow: 0px 0px 1px vars.$yellow2
     & p.#{gen.$terminalConsole}_multiline
         text-shadow: 0 1px 3px vars.$blue4, 0 1px 5px vars.$blue4, 0 0 8px vars.$blue4
 

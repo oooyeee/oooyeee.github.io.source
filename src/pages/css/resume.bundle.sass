@@ -1,0 +1,319 @@
+@use "./cssreset.sass"
+@use "./vars.sass" as vars
+@use "./mixins.sass" as mx
+
+@use "../../components/layout/header/header.module.sass" as header
+@use "../../components/layout/footer/footer.module.sass" as footer
+@use "../../components/footCopyright/footCopyright.module.sass" as footCopyright
+
+//================================= VARS
+
+$backgroundRoot: "background-root"
+$appRoot: "app-root"
+
+$a4width: 210mm
+$a4height: 297mm
+
+// @media screen
+:root
+    --outerHeight: 100vh
+
+    --smallMin: #{vars.$smallMin}
+    --smallMax: #{vars.$smallMax}
+
+    --mediumMin: #{vars.$mediumMin}
+    --mediumMax: #{vars.$mediumMax}
+
+    --bigMin: #{vars.$bigMin}
+    --bigMax: #{vars.$bigMax}
+
+    @media (max-width: vars.$smallMax + 100px)
+        --sideMargins: #{vars.$sideMarginSize}
+    @media (min-width: vars.$mediumMin + 100px)
+        --sideMargins: #{vars.$sideMarginSize * 2}
+
+    --maxWidth: calc(#{vars.$contentWidth} + 2*var(--sideMargins))
+
+html
+    letter-spacing: 0.5px
+    scroll-behavior: smooth
+
+body
+    // base 1 rem
+    font-size: vars.$fontSize
+    color: white
+    background-color: vars.$blue1
+    font-family: Verdana, sans-serif
+
+.background-root
+    position: fixed
+    top: 0px
+    left: 0px
+    z-index: -999
+    pointer-events: none
+    width: 100%
+    height: 100vh
+    background: vars.$blueGradient1
+
+svg
+    height: 32px
+    width: 32px
+
+main
+    display: flex
+    flex-direction: column
+    position: relative
+    height: fit-content
+    align-items: center
+    justify-content: center
+    width: 100%
+    // gap: vars.$mainGap
+    min-height: 100vh
+    padding-top: vars.$headerHeight
+
++header.main
++footer.main
++footCopyright.main
+
+//===================================== begin content
+
+@function transScale()
+    // @return scale(calc(min(#{$a4width}, 100%) / #{$a4width}), calc(min(#{$a4height}, 100%) / #{$a4height}))
+    @return scale(calc(30px / 120px), 90%)
+    // @return scale(calc(30px / 100vw), 90%)
+
+@font-face
+    font-family: 'Alegre Sans'
+    font-style: normal
+    font-weight: 400
+    src: local('Alegre Sans'), url('https://fonts.cdnfonts.com/s/22966/AlegreSans-Regular.woff') format('woff')
+
+main
+    & > .page
+        --header-height: 3.3cm
+        --content-height: 26.4cm
+        display: block
+        position: relative
+        width: $a4width
+        height: $a4height
+        background-color: white
+        color: #222
+        --baseLH: 5mm
+        --halfBaseLH: 2.5mm
+        --tinyTextThickness: 8pt
+        &:before
+            // +mx.HorisontalOverlay($a4height, $a4width, top, 0px, 25, 0px, absolute)
+            // +mx.HorisontalGrid(2.5mm, 25, absolute)
+        & > .p-header
+            display: block
+            position: relative
+            width: 100%
+            height: var(--header-height)
+            background-color: #d8d8d8
+            box-sizing: border-box
+            padding: 2mm
+            & > .margin-text-container
+                display: block
+                position: relative
+                font-size: 8pt
+                line-height: var(--halfBaseLH)
+                font-family: 'Alegre Sans'
+                height: 100%
+                width: 100%
+                // background-color: teal
+                --lineHeight: 3mm
+                & > .margin-text
+                    color: #aaa
+                    position: absolute
+                    display: block
+                    line-height: var(--lineHeight)
+                    & > span
+                        display: block
+                        line-height: inherit
+                    &:nth-of-type(1)
+                        left: calc(var(--halfBaseLH) + 1mm)
+                        bottom: 0
+                        display: block
+                        box-sizing: content-box
+                        border-bottom: 1px solid cyn
+                    &:nth-of-type(2)
+                        left: 0
+                        bottom: 0
+                    &:nth-of-type(3)
+                        right: calc(var(--halfBaseLH) + 1mm)
+                        top: 0
+                    &:nth-of-type(4)
+                        right: 0
+                        top: 0    
+                        text-align: center
+                & > h1
+                    padding-top: var(--baseLH)
+                    position: relative
+                    text-align: center
+                    font-size: calc(var(--halfBaseLH) * 5)
+                    line-height: calc(var(--halfBaseLH) * 5)
+                    font-family: "Poiret One", cursive
+                & > h2
+                    position: relative
+                    text-align: center
+                    font-size: calc(var(--halfBaseLH) * 2.75)
+                    line-height: calc(var(--halfBaseLH) * 2.75)
+                    font-family: 'Montserrat', sans-serif
+                    color: #333
+                    font-weight: 200
+        & > .p-content
+            padding: 2mm
+            position: relative
+            display: grid
+            width: 100%
+            height: calc(#{$a4height} - var(--baseLH) * 7)
+            grid-template-areas: "aside main"
+            grid-template-rows: 1fr
+            grid-template-columns: 200px 1fr
+            box-sizing: border-box
+            // outline: 2px solid yellow
+            // background-color: #eee
+            & .p-aside
+                position: relative
+                display: flex
+                flex-direction: column
+                align-items: flex-end
+                // background-color: gray
+                grid-area: aside
+                width: 100%
+                height: 100%
+                // border-right: 2px solid cyan
+                // box-sizing: border-box
+                &__imageBox
+                    display: block
+                    position: relative
+                    width: 50mm
+                    height: 50mm
+                    // background-color: #444
+                    &__img
+                        position: absolute
+                        display: block
+                        width: 75%
+                        height: 75%
+                        left: 50%
+                        top: 50%
+                        transform: translate(-50%, -50%)
+                        background: 45% 50%/110% no-repeat url(/assets/me.jpg)
+                        filter: saturate(1.75) brightness(1.1)
+                        border-radius: 50%
+                        box-shadow: 0 0 1px 0 gray inset, 0 0 2px 0 gray
+                        // border: 1px solid black
+                // &__list
+            & .p-main
+                grid-area: main
+                width: 100%
+                height: 100%
+                box-sizing: border-box
+                display: flex
+                flex-direction: column
+                align-items: flex-start
+                justify-content: flex-start
+                position: relative
+                &__section
+                    position: relative
+                    display: block
+                    width: 100%
+                    // border-left: 2px solid #ddd
+                    box-sizing: border-box
+                    &__name
+                        display: block
+                        position: relative
+                        width: 100%
+                        height: calc(var(--baseLH) * 1.5)
+                        line-height: calc(var(--baseLH) * 1.5)
+                        font-size: 16pt
+                        font-family: "Montserrat"
+                    &__content
+                        display: block
+                        position: relative
+                        width: 100%
+                        & li:before
+                            content: "•  "
+                            white-space: pre-wrap
+                            // font-size: 7pt
+                        &__grid
+                            padding-top: 2mm
+                            display: grid
+                            grid-template-areas: "years position location" "years company company" "years description description"
+                            grid-template-rows: 4mm 4mm 1fr
+                            grid-template-columns: 2cm 1fr 2cm
+                            font-family: "Play", sans-serif
+                            // font-size: 7pt
+                            & *
+                                text-align: justify
+                            & > div:nth-of-type(1) // years
+                                text-align: unset
+                                font-size: 7pt
+                                display: flex
+                                flex-direction: column
+                                & > span:nth-of-type(1)
+                                    display: block
+                                    text-decoration: underline
+                                    text-decoration-color: var(--text-decoration-color, #0094FF)
+                                    text-decoration-skip-ink: none
+                                    text-decoration-thickness: 0.75mm
+                                & > span:nth-of-type(2)
+                                    text-decoration: overline
+                                    text-decoration-color: var(--text-decoration-color, #0094FF)
+                                    text-decoration-skip-ink: none
+                                    text-decoration-thickness: 0.75mm
+                                & > label
+                                    display: block
+                                    height: 100%
+                                    width: 1mm
+                                    // justify-self: center
+                                    // align-self: center
+                                    box-sizing: border-box
+                                    margin-left: 0.5cm
+                                    border-right: 1mm dashed var(--text-decoration-color, #0094FF)
+                            & > span:nth-of-type(1) // position (title)
+                                font-size: 9pt
+                                // font-family: "Arial"
+                                font-weight: 700
+                            & > span:nth-of-type(2) // company
+                                font-size: 8pt
+                                // font-family: "Arial"
+                                font-style: italic
+                                font-weight: 700
+                            & > span:nth-of-type(3) // location
+                                font-size: 7pt
+                                // font-family: "Arial"
+                            & > div:nth-of-type(2) // description
+                                padding-right: 2cm
+                                font-size: 9pt
+                                // font-family: "Arial"
+
+
+//===================================== end content
+@page
+    size: A4 portrait
+@media print
+    header, header *
+        display: none
+    footer, footer *
+        all: unset !important
+        display: none !important
+    .background-root
+        display: none
+        height: unset
+    body
+        background-color: white
+    main
+        height: $a4height
+        width: $a4width
+        min-height: unset !important
+        padding-top: unset !important
+    .app-root
+        width: fit-content !important
+    main .page
+        podition: relative !important
+    // background-color: green
+    // body *:not(.page)
+    //     display: none
+    // .page, .page *
+    //     display: block !important

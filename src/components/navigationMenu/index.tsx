@@ -1,12 +1,10 @@
 
 import style from "./index.sv.gen.json"
 
-function NavigationMenu() {
+function NavigationMenu({children}) {
     return (<>
         <nav className={style.navigationMenu}>
-            <a href="#projects">projects</a>
-            <a href="#about">about</a>
-            <a href="#contacts">contacts</a>
+            {children}
         </nav>
         <label htmlFor="checkbox--nav" id={style.navigationBurger}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style={{stroke: "white", strokeWidth: 5, strokeLinecap: "round"}} >

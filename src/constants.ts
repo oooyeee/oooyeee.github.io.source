@@ -2,7 +2,7 @@ import { addProjects, ProjectDetails } from "./projects"
 
 const appRoot = "app-root"
 const backgroundRoot = "background-root"
-const ssr_json = "SSR_JSON"
+const ssr_json_id = "SSR_JSON"
 
 const uiState = {
     checkboxesIDs: {
@@ -37,7 +37,7 @@ function getSSRJson_on_client(): Hydration | {} {
     if (typeof document === "undefined") {
         return json
     }
-    let jsonString: string | HTMLElement = document.getElementById(ssr_json)
+    let jsonString: string | HTMLElement = document.getElementById(ssr_json_id)
     if (jsonString === null) {
         return json
     }
@@ -53,7 +53,7 @@ function getSSRJson_on_client(): Hydration | {} {
 export {
     appRoot,
     backgroundRoot,
-    ssr_json,
+    ssr_json_id,
     uiState,
     hydration,
     getSSRJson_on_client

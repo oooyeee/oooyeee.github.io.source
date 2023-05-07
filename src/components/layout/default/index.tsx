@@ -33,7 +33,12 @@ function DefaultLayout({ children }: { children: ReactNode }) {
         <Header id="header-container">
             <LanguageMenu></LanguageMenu>
             <ButtonsMenu></ButtonsMenu>
-            <NavigationMenu></NavigationMenu>
+            <NavigationMenu>
+                <a href="/resume.html">resume</a>
+                <a href="#projects">projects</a>
+                <a href="#about">about</a>
+                <a href="#contacts">contacts</a>
+            </NavigationMenu>
         </Header>
         <main>
             {children}
