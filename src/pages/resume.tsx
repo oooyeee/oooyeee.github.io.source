@@ -75,7 +75,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 location="Portugal / France"
                                 years={{ bgn: "2020 set", end: "Present day" }}
                             >
-                                <span>Fully committed to grow professionally. Took the opportunity to further develop my skills in software development through self-directed learning, while having a career break due to caregiving. Acquired skills in crypto trading, writing software in <b style={{ textShadow: "0px 0.5px 0px gray", fontStyle: "italic" }}>typescript</b> ecosystem, IaC tools and server automation (terraform, ansible), explored cloud solutions (AWS, Azure)</span>
+                                <span>Fully committed to grow professionally. Took the opportunity to further develop my skills in software development through self-directed learning, while having a career break due to caregiving. Acquired skills in crypto trading, writing software in <b style={{ textShadow: "0px 0.5px 0px #aaa", fontStyle: "italic" }}>typescript</b> ecosystem, IaC tools and server automation (terraform, ansible), explored cloud solutions (AWS, Azure)</span>
                             </PageSectionContent>
                             <PageSectionContent position="Caregiving"
                                 company=""
@@ -104,7 +104,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 <span>Contributed in R&D and testing:</span>
                                 <ul>
                                     <li>Learned about protocols and APIs, ISO-7816 and SAML</li>
-                                    <li>Implemented an ABI driver for a biometric ID card</li>
+                                    <li>Implemented an ABI driver for a biometric ID card, through USB interface</li>
                                     <li>Implemented 2FA (using API of Chave Móvel Digital)</li>
                                     <li>Documented the implemented solutions</li>
                                     <li>Executed and implemented automation tests for the WEB UI, using JavaScript, Java, and C# .Net with Selenium WebDriver</li>
@@ -145,17 +145,19 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             </PageSectionContent>
                         </PageSection>
                         <PageSection name="certificates">
-                            <PageSectionContent position="IT assistant, intership"
-                                company="Shortcut"
-                                location="Matosinhos, Portugal"
-                                years={{ bgn: "2015 apr", end: "2016 jan" }}
+                            <PageSectionContent position="Telecommunications Tecnician certificate"
+                                company="NOS, Comunicações, s.a."
+                                location="Porto, Portugal"
+                                years={{end: "2017" }}
                             >
-                                <span>Provided workstations support and minor software development</span>
-                                <ul>
-                                    <li>Provided maintenance to laptops and servers</li>
-                                    <li>Helped implementing of printing and stamping SDK in .Net</li>
-                                    <li>Researched ABI for biometric ID smart cards</li>
-                                </ul>
+                                <span>Certificate of competence in telecommunications networks</span>
+                            </PageSectionContent>
+                            <PageSectionContent position="AHK Certificate"
+                                company="ATEC"
+                                location="Porto, Portugal"
+                                years={{end: "2014" }}
+                            >
+                                <span>Certificate of competence in computer networks and IT systems management, given by the german Foreign Trade Chamber (AuslandsHandelsKammern)</span>
                             </PageSectionContent>
                         </PageSection>
                     </ul>

@@ -120,7 +120,6 @@ main
                 font-family: 'Alegre Sans'
                 height: 100%
                 width: 100%
-                // background-color: teal
                 --lineHeight: 3mm
                 & > .margin-text
                     color: #aaa
@@ -171,25 +170,19 @@ main
             grid-template-rows: 1fr
             grid-template-columns: 200px 1fr
             box-sizing: border-box
-            // outline: 2px solid yellow
-            // background-color: #eee
             & .p-aside
                 position: relative
                 display: flex
                 flex-direction: column
                 align-items: flex-end
-                // background-color: gray
                 grid-area: aside
                 width: 100%
                 height: 100%
-                // border-right: 2px solid cyan
-                // box-sizing: border-box
                 &__imageBox
                     display: block
                     position: relative
                     width: 50mm
                     height: 50mm
-                    // background-color: #444
                     &__img
                         position: absolute
                         display: block
@@ -202,8 +195,6 @@ main
                         filter: saturate(1.75) brightness(1.1)
                         border-radius: 50%
                         box-shadow: 0 0 1px 0 gray inset, 0 0 2px 0 gray
-                        // border: 1px solid black
-                // &__list
             & .p-main
                 grid-area: main
                 width: 100%
@@ -218,7 +209,6 @@ main
                     position: relative
                     display: block
                     width: 100%
-                    // border-left: 2px solid #ddd
                     box-sizing: border-box
                     &__name
                         display: block
@@ -232,21 +222,23 @@ main
                         display: block
                         position: relative
                         width: 100%
-                        & li:before
-                            content: "•  "
-                            white-space: pre-wrap
-                            // font-size: 7pt
                         &__grid
-                            padding-top: 2mm
+                            padding-top: 1mm
+                            padding-bottom: 1mm
                             padding-right: 1cm
                             display: grid
                             grid-template-areas: "years position location" "years company company" "years description description"
                             grid-template-rows: 4mm 4mm 1fr
                             grid-template-columns: 2cm 1fr 4cm
                             font-family: "Play", sans-serif
-                            // font-size: 7pt
-                            & *
+                            & li
+                                list-style-position: inside
                                 text-align: justify
+                                &::before
+                                    display: inline-block
+                                    content: "• "
+                                    font-family: monospace
+                                    white-space: break-spaces
                             & > div:nth-of-type(1) // years
                                 text-align: unset
                                 font-size: 7pt
@@ -271,29 +263,22 @@ main
                                     display: block
                                     height: 100%
                                     width: 1mm
-                                    // justify-self: center
-                                    // align-self: center
                                     box-sizing: border-box
                                     margin-left: 0.5cm
                                     border-right: 1mm dashed var(--text-decoration-color, #0094FF)
                             & > span:nth-of-type(1) // position (title)
                                 font-size: 9pt
-                                // font-family: "Arial"
                                 font-weight: 700
                             & > span:nth-of-type(2) // company
                                 font-size: 8pt
-                                // font-family: "Arial"
                                 font-style: italic
-                                // font-weight: 400
-                                text-shadow: 0px 1px 0px #aaa
+                                text-shadow: 0px 0.5px 0px #aaa
                             & > span:nth-of-type(3) // location
                                 font-size: 7pt
                                 text-align: end
                                 font-family: 'Consolas', 'Roboto Mono', monospace
-                                // font-family: "Arial"
                             & > div:nth-of-type(2) // description
                                 font-size: 9pt
-                                // font-family: "Arial"
 
 
 //===================================== end content
