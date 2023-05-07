@@ -72,21 +72,21 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         <PageSection name="experience">
                             <PageSectionContent position="Self-directed Learning & Development"
                                 company="Self-employed"
-                                location="Portugal. France."
+                                location="Portugal / France"
                                 years={{ bgn: "2020 set", end: "Present day" }}
                             >
                                 <span>Fully committed to grow professionally. Took the opportunity to further develop my skills in software development through self-directed learning, while having a career break due to caregiving. Acquired skills in crypto trading, writing software in <b style={{ textShadow: "0px 0.5px 0px gray", fontStyle: "italic" }}>typescript</b> ecosystem, IaC tools and server automation (terraform, ansible), explored cloud solutions (AWS, Azure)</span>
                             </PageSectionContent>
                             <PageSectionContent position="Caregiving"
                                 company=""
-                                location="Russia."
+                                location="Russia"
                                 years={{ bgn: "2020 dec", end: "2022 aug" }}
                             >
                                 <span>Took a voluntary career break to provide caregiving for a family member, during a challenging period (due to covid, health issues) in which appropriate facilities were unable to aid in the matters.</span>
                             </PageSectionContent>
                             <PageSectionContent position="Telecommunications technitian"
                                 company="MMF, Lda"
-                                location="Portugal. France."
+                                location="Portugal / France"
                                 years={{ bgn: "2017 apr", end: "2020 aug" }}
                             >
                                 <span>Provided a service in fiber optic (FTTx) installation and maintenance</span>
@@ -98,7 +98,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             </PageSectionContent>
                             <PageSectionContent position="Software developer"
                                 company="Shortcut - Consultadoria e Serviços de TI, Lda"
-                                location="Portugal, Matosinhos."
+                                location="Matosinhos, Portugal"
                                 years={{ bgn: "2015 apr", end: "2016 jan" }}
                             >
                                 <span>Contributed in R&D and testing:</span>
@@ -112,7 +112,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             </PageSectionContent>
                             <PageSectionContent position="IT assistant, intership"
                                 company="Shortcut"
-                                location="Portugal, Matosinhos"
+                                location="Matosinhos, Portugal"
                                 years={{ bgn: "2015 apr", end: "2016 jan" }}
                             >
                                 <span>Provided workstations support and minor software development</span>
@@ -123,9 +123,41 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 </ul>
                             </PageSectionContent>
                         </PageSection>
-                        <PageSection name="education"></PageSection>
-                        <PageSection name="competitions"></PageSection>
-                        <PageSection name="certificates"></PageSection>
+                        <PageSection name="education">
+                            <PageSectionContent position="Computer Networks and IT systems management"
+                                company="Specialist Tecnician in IT Networks (level 5 EQF)"
+                                location="Porto, Portugal"
+                                years={{ bgn: "2013", end: "2014" }}
+                            ></PageSectionContent>
+                            <PageSectionContent position="Communications Engineering"
+                                company="Integrated masters degree (unfinished)"
+                                location="Guimarães, Portugal"
+                                years={{ bgn: "2009", end: "2012" }}
+                            ></PageSectionContent>
+                        </PageSection>
+                        <PageSection name="competitions">
+                            <PageSectionContent position="EMEA CCNA Netriders"
+                                company=""
+                                location="Lisbon, Portugal"
+                                years={{ end: "2014" }}
+                            >
+                                <span>International Cisco competition in computer networks, reached top 25 of EMEA region</span>
+                            </PageSectionContent>
+                        </PageSection>
+                        <PageSection name="certificates">
+                            <PageSectionContent position="IT assistant, intership"
+                                company="Shortcut"
+                                location="Matosinhos, Portugal"
+                                years={{ bgn: "2015 apr", end: "2016 jan" }}
+                            >
+                                <span>Provided workstations support and minor software development</span>
+                                <ul>
+                                    <li>Provided maintenance to laptops and servers</li>
+                                    <li>Helped implementing of printing and stamping SDK in .Net</li>
+                                    <li>Researched ABI for biometric ID smart cards</li>
+                                </ul>
+                            </PageSectionContent>
+                        </PageSection>
                     </ul>
                 </div>
             </div>
@@ -150,10 +182,10 @@ function _PageSection({ name, index, children }: { name: string, index: number, 
     const color = (() => {
         const x = index % 4
         const colors = [
-            "#6ce0f1",
-            "#fb4485",
-            "#fda333",
-            "#c2e15f"
+            ["#11dfec", "#80f4ff"],
+            ["#fb4485", "#ffaac8"],
+            ["#fda333", "#ffd199"],
+            ["#77993f", "#c7e36b"]
         ]
         return colors[x]
     })();
@@ -161,10 +193,10 @@ function _PageSection({ name, index, children }: { name: string, index: number, 
     const Name = () => {
         let triple = name.length <= 3 ? name : name.substring(0, 3)
         let rest = name.length <= 3 ? "" : name.substring(3)
-        return (<h3 className="p-main__section__name"><span style={{ color: color }}>{triple}</span>{rest}</h3>)
+        return (<h3 className="p-main__section__name"><span style={{ color: color[0] }}>{triple}</span>{rest}</h3>)
     }
 
-    return (<li key={index} className="p-main__section" style={{"--text-decoration-color": color} as CSSProperties}>
+    return (<li key={index} className="p-main__section" style={{ "--text-decoration-color": color[1] } as CSSProperties}>
         <Name />
         <div className="p-main__section__content">
             {children ?? ""}
@@ -172,12 +204,19 @@ function _PageSection({ name, index, children }: { name: string, index: number, 
     </li>)
 }
 
-function PageSectionContent({ years, position, company, location, children }: { position: string, company: string, years: { bgn: string, end: string }, location: string, children?: ReactNode }) {
+function PageSectionContent({ years, position, company, location, children }: { position: string, company: string, years: { bgn?: string, end: string }, location: string, children?: ReactNode }) {
+
+    // set font to monospace, must preserve whitespace in css: white-space: pre-wrap or alike
+    const yearsXpad = {
+        bgn: years.bgn?.padEnd(8, " "),
+        end: years.end.padEnd(8, " ")
+    }
+
     return (<div className="p-main__section__content__grid">
         <div style={{ gridArea: "years", display: "flex", flexDirection: "column" }}>
-            <span>{years.end}</span>
-            <label></label>
-            <span style={{ marginTop: "auto" }}>{years.bgn}</span>
+            <span>{yearsXpad.end}</span>
+            {!!children && !!years.bgn && <label></label>}
+            {!!years.bgn && <span style={{ marginTop: "auto" }}>{yearsXpad.bgn}</span>}
         </div>
         <span style={{ gridArea: "position" }}>{position}</span>
         <span style={{ gridArea: "company" }}>{company}</span>

@@ -238,10 +238,11 @@ main
                             // font-size: 7pt
                         &__grid
                             padding-top: 2mm
+                            padding-right: 1cm
                             display: grid
                             grid-template-areas: "years position location" "years company company" "years description description"
                             grid-template-rows: 4mm 4mm 1fr
-                            grid-template-columns: 2cm 1fr 2cm
+                            grid-template-columns: 2cm 1fr 4cm
                             font-family: "Play", sans-serif
                             // font-size: 7pt
                             & *
@@ -251,13 +252,17 @@ main
                                 font-size: 7pt
                                 display: flex
                                 flex-direction: column
+                                font-family: 'Consolas', 'Roboto Mono', monospace
                                 & > span:nth-of-type(1)
                                     display: block
+                                    white-space: pre-wrap
                                     text-decoration: underline
                                     text-decoration-color: var(--text-decoration-color, #0094FF)
                                     text-decoration-skip-ink: none
                                     text-decoration-thickness: 0.75mm
                                 & > span:nth-of-type(2)
+                                    display: block
+                                    white-space: pre-wrap
                                     text-decoration: overline
                                     text-decoration-color: var(--text-decoration-color, #0094FF)
                                     text-decoration-skip-ink: none
@@ -279,12 +284,14 @@ main
                                 font-size: 8pt
                                 // font-family: "Arial"
                                 font-style: italic
-                                font-weight: 700
+                                // font-weight: 400
+                                text-shadow: 0px 1px 0px #aaa
                             & > span:nth-of-type(3) // location
                                 font-size: 7pt
+                                text-align: end
+                                font-family: 'Consolas', 'Roboto Mono', monospace
                                 // font-family: "Arial"
                             & > div:nth-of-type(2) // description
-                                padding-right: 2cm
                                 font-size: 9pt
                                 // font-family: "Arial"
 

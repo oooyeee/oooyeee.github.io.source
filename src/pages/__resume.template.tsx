@@ -4,7 +4,7 @@ import { ssr_json_id } from "../constants"
 
 const addGoogleFontPreloaded = () => {
     // const href = "https://fonts.googleapis.com/css?family=Orbitron|Play&display=swap"
-    const href = "https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Montserrat:wght@100;200;400;700&family=Orbitron:wght@400;700&family=Play:wght@400;700&family=Poiret+One&display=swap"
+    const href = "https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&family=Montserrat:wght@100;200;400;700&family=Orbitron:wght@400;700&family=Play:wght@400;700&family=Poiret+One&family=Roboto+Mono:wght@200;400;700&display=swap"
 
     // const href2 = "https://fonts.cdnfonts.com/css/alegre-sans"
 
