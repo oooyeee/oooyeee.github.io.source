@@ -158,6 +158,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         <ul className="p-aside__skillsBox">
                             <li>Protocols</li>
                             <li>Routing</li>
+                            <li>DNS</li>
                             <li>Firewalls</li>
                             <li>FTTx</li>
                         </ul>

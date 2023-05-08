@@ -164,11 +164,12 @@ main
             padding: 2mm
             position: relative
             display: grid
+            column-gap: 3mm
             width: 100%
             height: calc(#{$a4height} - var(--baseLH) * 7)
             grid-template-areas: "aside main"
             grid-template-rows: 1fr
-            grid-template-columns: 200px 1fr
+            grid-template-columns: 6cm 1fr
             box-sizing: border-box
             & .p-aside
                 position: relative
@@ -179,7 +180,7 @@ main
                 width: 100%
                 height: 100%
                 // padding-right: 2mm
-                padding-left: 0.5cm
+                padding-left: 1cm
                 // padding-right: 2mm
                 font-family: "Montserrat"
                 & > h3
@@ -205,14 +206,14 @@ main
                 &__imageBox
                     display: block
                     position: relative
-                    width: 50mm
-                    height: 50mm
-                    align-self: flex-end
+                    width: 42mm
+                    height: 42mm
+                    align-self: center
                     &__img
                         position: absolute
                         display: block
-                        width: 75%
-                        height: 75%
+                        width: 90%
+                        height: 90%
                         left: 50%
                         top: 50%
                         transform: translate(-50%, -50%)
