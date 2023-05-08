@@ -66,7 +66,54 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         <div className="p-aside__imageBox">
                             <div className="p-aside__imageBox__img"></div>
                         </div>
-                        <div className="p-aside__list"></div>
+                        <h3>contacts</h3>
+                        <ul className="p-aside__contactsBox">
+                            <li className="p-aside__contactsBox__location">
+                                <label>
+                                    <span>Famalicao, Portugal</span>
+                                    <svg>
+                                        <title>where am i?</title>
+                                        <use xlinkHref="/assets/icons.svg#location"></use>
+                                    </svg>
+                                </label>
+                            </li>
+                            <li className="p-aside__contactsBox__email">
+                                <a href="mailto:yaro@yaro.pt" target="_blank" rel="noopener noreferrer">
+                                    <span>yaro@yaro.pt</span>
+                                    <svg>
+                                        <title>send me an email</title>
+                                        <use xlinkHref="/assets/icons.svg#envelope"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li className="p-aside__contactsBox__linkedin">
+                                <a href="https://in.yaro.pt" target="_blank" rel="noopener noreferrer">
+                                    <span>https://in.yaro.pt</span>
+                                    <svg>
+                                        <title>my Linkedin</title>
+                                        <use xlinkHref="/assets/icons.svg#linkedin"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li className="p-aside__contactsBox__phone">
+                                <a href="tel:+351914059971" target="_blank" rel="noopener noreferrer">
+                                    <span>+351 914-059-971</span>
+                                    <svg>
+                                        <title>my number</title>
+                                        <use xlinkHref="/assets/icons.svg#whatsApp_bubble"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li className="p-aside__contactsBox__telegram">
+                                <a href="https://t.me/optimusfine" target="_blank" rel="noopener noreferrer">
+                                    <span>t.me/optimusfine</span>
+                                    <svg>
+                                        <title>PM me on telegram</title>
+                                        <use xlinkHref="/assets/icons.svg#telegram"></use>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                     <ul className="p-main">
                         <PageSection name="experience">
@@ -148,14 +195,14 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             <PageSectionContent position="Telecommunications Tecnician certificate"
                                 company="NOS, Comunicações, s.a."
                                 location="Porto, Portugal"
-                                years={{end: "2017" }}
+                                years={{ end: "2017" }}
                             >
                                 <span>Certificate of competence in telecommunications networks</span>
                             </PageSectionContent>
                             <PageSectionContent position="AHK Certificate"
                                 company="ATEC"
                                 location="Porto, Portugal"
-                                years={{end: "2014" }}
+                                years={{ end: "2014" }}
                             >
                                 <span>Certificate of competence in computer networks and IT systems management, given by the german Foreign Trade Chamber (AuslandsHandelsKammern)</span>
                             </PageSectionContent>

@@ -174,15 +174,30 @@ main
                 position: relative
                 display: flex
                 flex-direction: column
-                align-items: flex-end
+                align-items: flex-start
                 grid-area: aside
                 width: 100%
                 height: 100%
+                // padding-right: 2mm
+                padding-left: 0.5cm
+                // padding-right: 2mm
+                font-family: "Montserrat"
+                & > h3
+                    font-size: 14pt
+                    align-self: flex-end
+                    // text-align: center
+                    text-decoration: underline
+                    text-decoration-color: #80f4ff
+                    text-decoration-thickness: 0.75mm
+                    // width: 80%
+                    padding-right: 4mm
+                    // border-bottom: 0.75mm solid #80f4ff
                 &__imageBox
                     display: block
                     position: relative
                     width: 50mm
                     height: 50mm
+                    align-self: flex-end
                     &__img
                         position: absolute
                         display: block
@@ -195,6 +210,40 @@ main
                         filter: saturate(1.75) brightness(1.1)
                         border-radius: 50%
                         box-shadow: 0 0 1px 0 gray inset, 0 0 2px 0 gray
+                &__contactsBox // ul
+                    font-size: 9pt
+                    display: flex
+                    flex-direction: column
+                    align-items: flex-end
+                    justify-content: center
+                    width: 100%
+                    padding-right: 4mm
+                    &__location svg
+                        fill: #d6ac74
+                    &__email svg
+                        fill: #ddd
+                    &__linkedin  svg
+                        fill: #5a86b3
+                    &__phone svg
+                        fill: #7cc56a
+                    &__telegram svg
+                        --svg-telegram-circle-fill-color: #6eb0d3
+                    & svg
+                        height: 5mm
+                        width: 5mm
+                    & > li
+                        height: 22.5pt
+                        line-height: 22.5pt
+                        & > label,& > a
+                            gap: 1mm
+                            width: 100%
+                            display: flex
+                            flex-wrap: wrap
+                            flex-direction: row
+                            align-items: center
+                            justify-content: space-between
+                            // & > span
+                            //     text-shadow: 1px 1px 0px vars.$blue3
             & .p-main
                 grid-area: main
                 width: 100%
