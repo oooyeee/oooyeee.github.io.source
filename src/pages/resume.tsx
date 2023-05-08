@@ -66,7 +66,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         <div className="p-aside__imageBox">
                             <div className="p-aside__imageBox__img"></div>
                         </div>
-                        <h3>contacts</h3>
+                        <h3><b style={{ color: "turquoise" }}>Con</b>tact info</h3>
                         <ul className="p-aside__contactsBox">
                             <li className="p-aside__contactsBox__location">
                                 <label>
@@ -113,6 +113,53 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                     </svg>
                                 </a>
                             </li>
+                        </ul>
+                        <h3><b style={{ color: "magenta" }}>Lan</b>guages</h3>
+                        <ul className="p-aside__languageBox">
+                            <li>Portuguese</li>
+                            <li>English</li>
+                            <li>Russian</li>
+                        </ul>
+                        <h3>
+                            <span><b style={{ color: "orange" }}>Ski</b>lls</span>
+                        </h3>
+                        <h4>Programming languages</h4>
+                        <ul className="p-aside__skillsBox">
+                            <li>Typescript</li>
+                            <li>Javascript</li>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>SASS</li>
+                            <li>SQL</li>
+                            <li>C</li>
+                            <li>C#</li>
+                            <li>java</li>
+                        </ul>
+                        <h4>Frameworks</h4>
+                        <ul className="p-aside__skillsBox">
+                            <li>Node.js</li>
+                            <li>dotnet core</li>
+                            <li>React.js</li>
+                            <li>Nest.js</li>
+                            <li>Express.js</li>
+                        </ul>
+                        <h4>DevOps</h4>
+                        <ul className="p-aside__skillsBox">
+                            <li>IaC</li>
+                            <li>Ansible</li>
+                            <li>Terraform</li>
+                            <li>Linux</li>
+                            <li>containers</li>
+                            <li>bash</li>
+                            <li>pwsh</li>
+                            <li>git</li>
+                        </ul>
+                        <h4>Networking</h4>
+                        <ul className="p-aside__skillsBox">
+                            <li>Protocols</li>
+                            <li>Routing</li>
+                            <li>Firewalls</li>
+                            <li>FTTx</li>
                         </ul>
                     </div>
                     <ul className="p-main">

@@ -185,13 +185,23 @@ main
                 & > h3
                     font-size: 14pt
                     align-self: flex-end
-                    // text-align: center
-                    text-decoration: underline
-                    text-decoration-color: #80f4ff
-                    text-decoration-thickness: 0.75mm
-                    // width: 80%
-                    padding-right: 4mm
-                    // border-bottom: 0.75mm solid #80f4ff
+                    // text-decoration: underline
+                    // text-decoration-color: #80f4ff
+                    // text-decoration-thickness: 0.75mm
+                    // text-decoration-skip-ink: none
+                    padding-right: 5mm
+                    padding-top: 2mm
+                    text-shadow: 0px 0.5px 1px currentcolor
+                & > h4
+                    font-size: 8pt
+                    font-weight: 700
+                    align-self: flex-end
+                    padding-right: 5mm
+                    padding-top: 1mm
+                    padding-bottom: 1mm
+                    font-family: "Play", sans-serif
+                    &:after
+                        content: " +"
                 &__imageBox
                     display: block
                     position: relative
@@ -210,14 +220,18 @@ main
                         filter: saturate(1.75) brightness(1.1)
                         border-radius: 50%
                         box-shadow: 0 0 1px 0 gray inset, 0 0 2px 0 gray
-                &__contactsBox // ul
+                & > ul
                     font-size: 9pt
                     display: flex
+                    width: 100%
+                    padding-right: 5mm
+                    & > li
+                        height: 22.5pt
+                        line-height: 22.5pt
+                &__contactsBox // ul
                     flex-direction: column
                     align-items: flex-end
                     justify-content: center
-                    width: 100%
-                    padding-right: 4mm
                     &__location svg
                         fill: #d6ac74
                     &__email svg
@@ -231,19 +245,35 @@ main
                     & svg
                         height: 5mm
                         width: 5mm
+                    & > li > label,& > li > a
+                        gap: 1mm
+                        width: 100%
+                        display: flex
+                        flex-wrap: wrap
+                        flex-direction: row
+                        align-items: center
+                        justify-content: space-between
+                &__languageBox // ul
+                    flex-direction: column
+                    align-items: flex-end
+                    justify-content: center
+                &__skillsBox
+                    // width: 100%
+                    // display: flex
+                    flex-direction: row
+                    flex-wrap: wrap
+                    justify-content: flex-end
+                    gap: 1mm
                     & > li
-                        height: 22.5pt
-                        line-height: 22.5pt
-                        & > label,& > a
-                            gap: 1mm
-                            width: 100%
-                            display: flex
-                            flex-wrap: wrap
-                            flex-direction: row
-                            align-items: center
-                            justify-content: space-between
-                            // & > span
-                            //     text-shadow: 1px 1px 0px vars.$blue3
+                        height: 18pt !important
+                        line-height: 18pt !important
+                        width: fit-content
+                        border-radius: 2mm
+                        box-sizing: border-box
+                        outline: 1px solid var(--skillBox-skill-color, gray)
+                        white-space: pre-wrap   
+                        &:before,&:after
+                            content: " "
             & .p-main
                 grid-area: main
                 width: 100%
@@ -267,6 +297,7 @@ main
                         line-height: calc(var(--baseLH) * 1.5)
                         font-size: 16pt
                         font-family: "Montserrat"
+                        text-shadow: 0px 0.5px 1px currentcolor
                     &__content
                         display: block
                         position: relative
