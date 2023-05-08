@@ -180,7 +180,7 @@ main
                 width: 100%
                 height: 100%
                 // padding-right: 2mm
-                padding-left: 1cm
+                padding-left: 0.8cm
                 // padding-right: 2mm
                 font-family: "Montserrat"
                 & > h3
@@ -266,6 +266,11 @@ main
                     justify-content: flex-end
                     gap: 1mm
                     & > li
+                        display: flex
+                        flex-direction: row
+                        align-items: center
+                        justify-content: center
+                        gap: 1.5pt
                         height: 18pt !important
                         line-height: 18pt !important
                         width: fit-content
@@ -285,6 +290,7 @@ main
                 align-items: flex-start
                 justify-content: flex-start
                 position: relative
+                padding-right: 0.8cm
                 &__section
                     position: relative
                     display: block
@@ -306,11 +312,10 @@ main
                         &__grid
                             padding-top: 1mm
                             padding-bottom: 1mm
-                            padding-right: 1cm
                             display: grid
                             grid-template-areas: "years position location" "years company company" "years description description"
                             grid-template-rows: 4mm 4mm 1fr
-                            grid-template-columns: 2cm 1fr 4cm
+                            grid-template-columns: 2cm 1fr 3cm
                             font-family: "Play", sans-serif
                             & li
                                 list-style-position: inside

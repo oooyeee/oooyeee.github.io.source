@@ -17,7 +17,8 @@ const style = {
 
 function ResumeHydratableApp({ hydration }: { hydration?: any }) {
 
-    const PageSection = PageSectionFactory()
+    const PageSection = PageSectionFactory();
+    const SubSkillsBlock = PageSubSkillsBlockFactory();
 
     return (<>
         <Header id="header-container">
@@ -58,7 +59,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             <span>M</span>
                         </div>
                         <h1>Yaroslav Minakov</h1>
-                        <h2>web developer</h2>
+                        <h2>fullstack web developer</h2>
                     </div>
                 </div>
                 <div className="p-content">
@@ -123,9 +124,13 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         <h3>
                             <span><b style={{ color: "orange" }}>Ski</b>lls</span>
                         </h3>
-                        <h4>Programming languages</h4>
-                        <ul className="p-aside__skillsBox">
-                            <li>Typescript</li>
+                        <SubSkillsBlock name="Programming languages">
+                            <li>
+                                <svg style={{height: "12pt", width: "12pt", borderRadius: "20%"}}>
+                                    <use xlinkHref="/assets/icons.svg#typescript"></use>
+                                </svg>
+                                <span>Typescript</span>
+                            </li>
                             <li>Javascript</li>
                             <li>HTML</li>
                             <li>CSS</li>
@@ -134,17 +139,15 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             <li>C</li>
                             <li>C#</li>
                             <li>java</li>
-                        </ul>
-                        <h4>Frameworks</h4>
-                        <ul className="p-aside__skillsBox">
+                        </SubSkillsBlock>
+                        <SubSkillsBlock name="Frameworks">
                             <li>Node.js</li>
                             <li>dotnet core</li>
                             <li>React.js</li>
                             <li>Nest.js</li>
                             <li>Express.js</li>
-                        </ul>
-                        <h4>DevOps</h4>
-                        <ul className="p-aside__skillsBox">
+                        </SubSkillsBlock>
+                        <SubSkillsBlock name="DevOps">
                             <li>IaC</li>
                             <li>Ansible</li>
                             <li>Terraform</li>
@@ -153,15 +156,14 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             <li>bash</li>
                             <li>pwsh</li>
                             <li>git</li>
-                        </ul>
-                        <h4>Networking</h4>
-                        <ul className="p-aside__skillsBox">
+                        </SubSkillsBlock>
+                        <SubSkillsBlock name="Networking">
                             <li>Protocols</li>
                             <li>Routing</li>
                             <li>DNS</li>
                             <li>Firewalls</li>
                             <li>FTTx</li>
-                        </ul>
+                        </SubSkillsBlock>
                     </div>
                     <ul className="p-main">
                         <PageSection name="experience">
@@ -265,6 +267,33 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
         }}>
             <FootCopyright />
         </Footer>
+    </>)
+}
+
+function PageSubSkillsBlockFactory(args: { oneColor?: string } = undefined) {
+    let index = 0
+    return ({ name, children }: { name: string, children: ReactNode }) => {
+        const color = (!!args && args.oneColor) ? [args.oneColor, args.oneColor] : (() => {
+            const x = index % 4;
+            index += 1;
+            const colors = [
+                ["#11dfec", "#80f4ff"],
+                ["#fb4485", "#ffaac8"],
+                ["#fda333", "#ffd199"],
+                ["#77993f", "#c7e36b"]
+            ]
+            return colors[x]
+        })();
+        return _SubSkillsBlock({ name: name, outlineColor: color[1], children: children })
+    }
+}
+
+function _SubSkillsBlock({ name, outlineColor, children }: { name: string, outlineColor?: string, children?: ReactNode }) {
+    return (<>
+        <h4>{name}</h4>
+        <ul className="p-aside__skillsBox" style={{ "--skillBox-skill-color": outlineColor } as CSSProperties}>
+            {children}
+        </ul>
     </>)
 }
 
