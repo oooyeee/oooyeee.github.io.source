@@ -22,6 +22,13 @@ type Listeners<EM extends EventMap> = {
 
 /**
  * Browser friendly, simple event emitter
+ * @example <caption>usage with type</caption>
+ * type Events = {
+ *  hello: (str: string, num: number) => void
+ *  kek: (obj: {lol: string, n: number}, num: number) => void
+ * }
+ * let ee = new EE<Events>()
+ * // enjoy intellisense
  */
 class EE<EM extends EventMap> {
     #listeners: Listeners<EM>;
