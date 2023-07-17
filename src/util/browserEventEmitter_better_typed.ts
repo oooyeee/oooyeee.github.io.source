@@ -34,7 +34,7 @@ class EE<EM extends EventMap> {
     }
 
 
-    addListener<E extends keyof EM>(target: E, listener: ListenerType<any[]>, options?: AddListenerOptions): EE<EM> {
+    addListener<E extends keyof EM>(target: E, listener: EM[E], options?: AddListenerOptions): EE<EM> {
         if (this.#listeners[target] !== undefined && this.#listeners[target].length < this.#maxListeners) {
             this.#listeners[target].push({
                 fn: listener,
@@ -82,7 +82,7 @@ class EE<EM extends EventMap> {
     }
 
     on = this.addListener
-    once<E extends keyof EM>(target: E, listener: ListenerType<any[]>): EE<EM> {
+    once<E extends keyof EM>(target: E, listener: EM[E]): EE<EM> {
         this.addListener(target, listener, { once: true })
 
         return this
