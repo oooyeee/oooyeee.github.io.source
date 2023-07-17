@@ -45,12 +45,12 @@ function Contacts({ id }: ContactsProperties) {
                         </a>
                     </li>
                     <li>
-                        <a href="https://discord.gg/bhQnscdXZT" target="_blank" rel="noopener noreferrer">
+                        <a href="https://t.me/optimusfine" target="_blank" rel="noopener noreferrer">
                             <svg>
-                                <title>PM me on discord</title>
-                                <use xlinkHref="/assets/icons.svg#discord"></use>
+                                <title>PM me on telegram</title>
+                                <use xlinkHref="/assets/icons.svg#telegram"></use>
                             </svg>
-                            <span>Discord</span>
+                            <span>telegram</span>
                         </a>
                     </li>
                     <li>
@@ -66,7 +66,7 @@ function Contacts({ id }: ContactsProperties) {
             </div>
             <div className={style.messageForm}>
                 <h3>Hi, lets talk!</h3>
-                <form action="" className={style.messageForm + "__form"}>
+                <form action="https://api.yaro.pt/yaro.pt/messageform" className={style.messageForm + "__form"}>
                     <label className={style.messageForm + "__label-name"}>
                         <span>Name:</span>
                         <input type="text" name="name" placeholder="Your name"/>

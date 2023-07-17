@@ -58,8 +58,8 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             <span>U</span>
                             <span>M</span>
                         </div>
-                        <h1>Yaroslav Minakov</h1>
-                        <h2 id="professional_title">web developer, networks professional</h2>
+                        <h1>Ярослав Минаков</h1>
+                        <h2 id="professional_title">веб разработчик</h2>
                     </div>
                 </div>
                 <div className="p-content">
@@ -67,13 +67,13 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         <div className="p-aside__imageBox">
                             <div className="p-aside__imageBox__img"></div>
                         </div>
-                        <h3><b style={{ color: "#11dfec" }}>Con</b>tact info</h3>
+                        <h3><b style={{ color: "#11dfec" }}>Кон</b>такты</h3>
                         <ul className="p-aside__contactsBox">
                             <li className="p-aside__contactsBox__location">
                                 <label>
-                                    <span>Famalicão, Portugal</span>
+                                    <span>Famalicao, Portugal</span>
                                     <svg>
-                                        <title>where am i?</title>
+                                        <title>где я?</title>
                                         <use xlinkHref="/assets/icons.svg#location"></use>
                                     </svg>
                                 </label>
@@ -82,7 +82,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 <a href="mailto:yaro@yaro.pt" target="_blank" rel="noopener noreferrer">
                                     <span>yaro@yaro.pt</span>
                                     <svg>
-                                        <title>send me an email</title>
+                                        <title>отправьте емайл</title>
                                         <use xlinkHref="/assets/icons.svg#envelope"></use>
                                     </svg>
                                 </a>
@@ -91,7 +91,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 <a href="https://in.yaro.pt" target="_blank" rel="noopener noreferrer">
                                     <span>https://in.yaro.pt</span>
                                     <svg>
-                                        <title>my Linkedin</title>
+                                        <title>мой Linkedin</title>
                                         <use xlinkHref="/assets/icons.svg#linkedin"></use>
                                     </svg>
                                 </a>
@@ -100,7 +100,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 <a href="tel:+351914059971" target="_blank" rel="noopener noreferrer">
                                     <span>+351 914-059-971</span>
                                     <svg>
-                                        <title>my number</title>
+                                        <title>мой номер</title>
                                         <use xlinkHref="/assets/icons.svg#whatsApp_bubble"></use>
                                     </svg>
                                 </a>
@@ -109,22 +109,22 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                                 <a href="https://t.me/optimusfine" target="_blank" rel="noopener noreferrer">
                                     <span>t.me/optimusfine</span>
                                     <svg>
-                                        <title>PM me on telegram</title>
+                                        <title>мой телеграм</title>
                                         <use xlinkHref="/assets/icons.svg#telegram"></use>
                                     </svg>
                                 </a>
                             </li>
                         </ul>
-                        <h3><b style={{ color: "#fb4485" }}>Lan</b>guages</h3>
+                        <h3><b style={{ color: "#fb4485" }}>Язы</b>ки</h3>
                         <ul className="p-aside__languageBox">
-                            <li>Portuguese</li>
                             <li>English</li>
-                            <li>Russian</li>
+                            <li>Português</li>
+                            <li>Русский</li>
                         </ul>
                         <h3>
-                            <span><b style={{ color: "#fda333" }}>Ski</b>lls</span>
+                            <span><b style={{ color: "#fda333" }}>Нав</b>ыки</span>
                         </h3>
-                        <SubSkillsBlock name="Programming languages">
+                        <SubSkillsBlock name="Языки программирования">
                             <li>
                                 <svg style={{height: "12pt", width: "12pt", borderRadius: "20%"}}>
                                     <use xlinkHref="/assets/icons.svg#typescript"></use>
@@ -140,7 +140,7 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                             <li>C#</li>
                             <li>java</li>
                         </SubSkillsBlock>
-                        <SubSkillsBlock name="Frameworks">
+                        <SubSkillsBlock name="Фреймворки">
                             <li>Node.js</li>
                             <li>dotnet core</li>
                             <li>React.js</li>
@@ -167,95 +167,94 @@ function ResumeHydratableApp({ hydration }: { hydration?: any }) {
                         </SubSkillsBlock>
                     </div>
                     <ul className="p-main">
-                        <PageSection name="experience">
-                            <PageSectionContent position="Self-directed Learning & Development"
-                                company="Self-employed"
-                                location="Portugal / Russia"
-                                years={{ bgn: "2020 set", end: "Present day" }}
-                            >
-                                <span>Fully committed to grow professionally. Took the opportunity to further develop my skills in software development through self-directed learning, during a career break due to caregiving. Acquired skills in crypto trading, writing software in <b style={{ fontStyle: "italic" }}>typescript</b> ecosystem, IaC tools and server automation (terraform, ansible), explored cloud solutions (AWS, Azure) and AI tools</span>
-                            </PageSectionContent>
-                            <PageSectionContent position="Caregiving"
+                        <PageSection name="опыт">
+                            <PageSectionContent position="Самостоятельное обучение и развитие"
                                 company=""
-                                location="Russia"
-                                years={{ bgn: "2020 dec", end: "2022 aug" }}
+                                location="Португалия / Россия"
+                                years={{ bgn: "2020 сен", end: "сейчас" }}
                             >
-                                <span>Took a voluntary career break to provide caregiving for a family member, during a challenging period, marked by covid and health issues, in which appropriate facilities were unable to aid in the matters.</span>
+                                <span>Воспользовался возможностью дальнейшего развития навыков в области разработки ПО, обучаясь самостоятельно во время карьерного перерыва, связанного с уходом за близкими. Приобрел навыки в криптотрейдинге, увлекся стеком Node.js + TypeScript, инструментами IaC и автоматизации серверов (Terraform, Ansible), а также облачными решения (AWS, Azure) и инструментами AI</span>
                             </PageSectionContent>
-                            <PageSectionContent position="Telecommunications technitian"
+                            <PageSectionContent position="Гериатрическая помощь"
+                                company=""
+                                location="Россия"
+                                years={{ bgn: "2020 дек", end: "2022 авг" }}
+                            >
+                                <span>Взял добровольный перерыв в карьере, чтобы обеспечить уход за членом семьи в трудный период, связанный с коронавирусом и здоровьем, когда соответствующие учреждения не могли помочь в решении этих вопросов.</span>
+                            </PageSectionContent>
+                            <PageSectionContent position="Тех. специалист по телекоммуникациям"
                                 company="MMF, Lda"
-                                location="Portugal / France"
-                                years={{ bgn: "2017 apr", end: "2020 aug" }}
+                                location="Португалия / Франция"
+                                years={{ bgn: "2017 апр", end: "2020 авг" }}
                             >
-                                <span>Provided a service in fiber optic (FTTx) installation and maintenance</span>
+                                <span>Оказывал услуги по установке и обслуживанию оптоволокна (FTTx)</span>
                                 <ul>
-                                    <li>Installed fiber optic cable and terminal equipment, guaranteeing the best quality of service (QoS)</li>
-                                    <li>Resolved end-client problems related to equipment, QoS, local and external network</li>
-                                    <li>Ensured that clients were satisfied with the service provided</li>
+                                    <li>Устанавливал оптоволоконный кабель и оконечное оборудование, гарантировал качество сигнала (QoS)</li>
+                                    <li>Решал проблемы клиентов, связанные с оборудованием, QoS, локальной и внешней сетью.</li>
                                 </ul>
                             </PageSectionContent>
-                            <PageSectionContent position="Software developer"
+                            <PageSectionContent position="Разработчик ПО"
                                 company="Shortcut - Consultadoria e Serviços de TI, Lda"
-                                location="Matosinhos, Portugal"
-                                years={{ bgn: "2015 apr", end: "2016 jan" }}
+                                location="Matosinhos, Португалия"
+                                years={{ bgn: "2015 апр", end: "2016 янв" }}
                             >
-                                <span>Contributed in R&D and testing:</span>
+                                <span>Участвовал в R&D и тестировании:</span>
                                 <ul>
-                                    <li>Learned about protocols and APIs, ISO-7816 and SAML</li>
-                                    <li>Implemented an ABI driver for a biometric ID card, through USB interface</li>
-                                    <li>Implemented 2FA (using API of Chave Móvel Digital)</li>
-                                    <li>Documented the implemented solutions</li>
-                                    <li>Executed and implemented automation tests for the WEB UI, using JavaScript, Java, and C# .Net with Selenium WebDriver</li>
+                                    <li>Изучал протоколы и APIs, ISO-7816 и SAML</li>
+                                    <li>Реализовал ABI драйвер биометрической ID карты, через USB</li>
+                                    <li>Реализовал 2FA (используя API - Chave Móvel Digital)</li>
+                                    <li>Задокументировал решения</li>
+                                    <li>Реализовывал тесты для веб-интерфейса используя JavaScript, Java и C#.Net с Selenium WebDriver.</li>
                                 </ul>
                             </PageSectionContent>
-                            <PageSectionContent position="IT assistant, intership"
-                                company="Shortcut"
-                                location="Matosinhos, Portugal"
-                                years={{ bgn: "2014 set", end: "2014 dec" }}
+                            <PageSectionContent position="IT специалист"
+                                company="Shortcut - Consultadoria e Serviços de TI, Lda"
+                                location="Matosinhos, Португалия"
+                                years={{ bgn: "2014 сен", end: "2014 дек" }}
                             >
-                                <span>Provided workstations support and minor software development</span>
+                                <span>Предоставлял IT поддержку, разрабатывал ПО</span>
                                 <ul>
-                                    <li>Provided maintenance to laptops and servers</li>
-                                    <li>Helped implementing of printing and stamping SDK in .Net</li>
-                                    <li>Researched ABI for biometric ID smart cards</li>
+                                    <li>Тех. обслуживание ноутбуков и серверов</li>
+                                    <li>Помог внедрить SDK для печати и штамповки в .Net</li>
+                                    <li>Исследовал ABI для биометрической ID карты</li>
                                 </ul>
                             </PageSectionContent>
                         </PageSection>
-                        <PageSection name="education">
+                        <PageSection name="образование">
                             <PageSectionContent position="Computer Networks and IT systems management"
-                                company="Specialist Tecnician in IT Networks (level 5 EQF)"
-                                location="Porto, Portugal"
+                                company="Техничесий специалист IT систем и сетей (EQF 5 уровень)"
+                                location="Porto, Португалия"
                                 years={{ bgn: "2013", end: "2014" }}
                             ></PageSectionContent>
                             <PageSectionContent position="Communications Engineering"
-                                company="Integrated masters degree (unfinished)"
-                                location="Guimarães, Portugal"
+                                company="Лиценциат (незавершенный)"
+                                location="Guimarães, Португалия"
                                 years={{ bgn: "2009", end: "2012" }}
                             ></PageSectionContent>
                         </PageSection>
-                        <PageSection name="competitions">
+                        <PageSection name="достижения">
                             <PageSectionContent position="EMEA CCNA Netriders"
                                 company=""
-                                location="Lisbon, Portugal"
+                                location="Lisbon, Португалия"
                                 years={{ end: "2014" }}
                             >
-                                <span>International Cisco competition in computer networks, reached top 25 of EMEA region</span>
+                                <span>Международный конкурс Cisco по компьютерным сетям, вошел в топ-25 региона EMEA</span>
                             </PageSectionContent>
                         </PageSection>
-                        <PageSection name="certificates">
+                        <PageSection name="сертификаты">
                             <PageSectionContent position="Telecommunications Tecnician certificate"
                                 company="NOS, Comunicações, s.a."
-                                location="Porto, Portugal"
+                                location="Porto, Португалия"
                                 years={{ end: "2017" }}
                             >
-                                <span>Certificate of competence in telecommunications networks</span>
+                                <span>Сертификат компетентности в телекоммуникационных сетях</span>
                             </PageSectionContent>
                             <PageSectionContent position="AHK Certificate"
                                 company="ATEC"
-                                location="Porto, Portugal"
+                                location="Porto, Португалия"
                                 years={{ end: "2014" }}
                             >
-                                <span>Certificate of competence in computer networks and IT systems management, given by the german Foreign Trade Chamber (AuslandsHandelsKammern)</span>
+                                <span>Сертификат компетентности в управлении компьютерными сетями и ИТ-системами, выданный германской палатой внешней торговли (AuslandsHandelsKammern)</span>
                             </PageSectionContent>
                         </PageSection>
                     </ul>
@@ -355,8 +354,8 @@ function PageSectionContent({ years, position, company, location, children }: { 
 
 function Page() {
     return (ResumeTemplate({
-        cssentry: "/css/resume.bundle.css",
-        jsentry: "/js/resume.client.js",
+        cssentry: "/css/resumeru.bundle.css",
+        jsentry: "/js/resumeru.client.js",
         hydration: {},
         children: (<>
             <input className="displaynone" type="checkbox" id={uiState.checkboxesIDs.language} />

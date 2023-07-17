@@ -34,7 +34,7 @@ function DefaultLayout({ children }: { children: ReactNode }) {
             <LanguageMenu></LanguageMenu>
             <ButtonsMenu></ButtonsMenu>
             <NavigationMenu>
-                <a href="/resume.html">resume</a>
+                <a href="/assets/resume.pdf" target="_blank">resume</a>
                 <a href="#projects">projects</a>
                 <a href="#about">about</a>
                 <a href="#contacts">contacts</a>
